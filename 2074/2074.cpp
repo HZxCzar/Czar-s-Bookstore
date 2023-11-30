@@ -7,7 +7,7 @@ int main() {
   std::cin >> n;
   std::string statment, ind;
   int val;
-  kv_database ans;
+  kv_database ans("testcase");
   for (int i = 0; i < n; i++) {
     std::cin >> statment;
     if (statment == "insert") {
