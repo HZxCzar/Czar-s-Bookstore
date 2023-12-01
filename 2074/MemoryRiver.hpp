@@ -43,6 +43,13 @@ public:
   //检查是否是第一次打开
   bool IS_FIRST_OPEN() {
     file.open(file_name, std::ios::in | std::ios::out | std::ios::ate);
+    std::cout<<"!!\n";
+    if(!file.is_open())
+    {
+      std::cout<<"!!!\n";
+      ofstream file(file_name);
+      file.open(file_name, std::ios::in | std::ios::out | std::ios::ate);
+    }
     if (info_len * sizeof(int) < file.tellp()) {
       file.close();
       return false;
