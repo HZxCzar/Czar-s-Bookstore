@@ -125,11 +125,10 @@ inline void kv_database::ADD(const int &val, const int &l, int &r) {
 
 inline kv_database::kv_database(const string &name) {
   datafile.Setfile(name);
-  // if (datafile.IS_FIRST_OPEN()) {
-  // std::cout<<"in\n";
-  datafile.initialise();
-  datafile.write_info(-1, 1);
-  //}
+  if (datafile.IS_FIRST_OPEN()) {
+    datafile.initialise();
+    datafile.write_info(-1, 1);
+  }
 }
 
 inline void kv_database::Find(const std::string &ind) {
