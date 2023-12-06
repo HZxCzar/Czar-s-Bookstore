@@ -26,7 +26,6 @@ public:
   }
 
   void Setfile(const string &name) { file_name = name; }
-
   void initialise(string FN = "") {
     if (FN != "")
       file_name = FN;
