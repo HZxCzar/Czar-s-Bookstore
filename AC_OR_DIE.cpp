@@ -6,10 +6,10 @@ using std::fstream;
 using std::ifstream;
 using std::ofstream;
 using std::string;
-constexpr int BLOCKSIZE = 8000;
+constexpr int BLOCKSIZE = 555;
 bool check = false;
 struct data {
-  int value;
+  int value ;
   char index[64] = {};
 };
 struct partA {
@@ -18,7 +18,7 @@ struct partA {
   data first;
 };
 struct partB {
-  data elem[BLOCKSIZE+100];
+  data elem[BLOCKSIZE + 100];
   int size = 0;
 };
 template <class partA, class partB> class MemoryRiver {
@@ -39,7 +39,7 @@ public:
     partA tmp;
     int beg = 0;
     file.write(reinterpret_cast<char *>(&beg), sizeof(int));
-    for (int i = 0; i < 114514; ++i) {
+    for (int i = 0; i < 11451; ++i) {
       file.write(reinterpret_cast<char *>(&tmp), sizeofi);
     }
     file.close();
@@ -70,6 +70,8 @@ public:
     file.read(reinterpret_cast<char *>(&tmp), sizeof(int));
   }
   void write_info(int tmp) {
+    file.close();
+    file.open(file_name,std::ios::out | std::ios::in);
     file.seekp(0);
     file.write(reinterpret_cast<char *>(&tmp), sizeof(int));
   }
@@ -77,11 +79,11 @@ public:
   //位置索引意味着当输入正确的位置索引index，在以下三个函数中都能顺利的找到目标对象进行操作
   //位置索引index可以取为对象写入的起始位置
   int writeA(partA &t) {
-    file.close();
-    file.open(file_name, std::ios::out | std::ios::in);
+    // file.close();
+    // file.open(file_name, std::ios::out | std::ios::in);
     int num;
     get_info(num);
-    int pos = num * sizeofi + sizeof(int);
+    long long pos = num * sizeofi + sizeof(int);
     file.seekp(pos);
     file.write(reinterpret_cast<char *>(&t), sizeofi);
     write_info(num + 1);
@@ -90,7 +92,7 @@ public:
   int writeB(partB &t) {
     file.close();
     file.open(file_name, std::ios::out | std::ios::in | std::ios::ate);
-    int pos = file.tellp();
+    long long pos = file.tellp();
     file.write(reinterpret_cast<char *>(&t), sizeofv);
     return pos;
   }
@@ -136,6 +138,7 @@ public:
   bool have_ind;
   bool have_val;
   bool checkbeg = false;
+  void StreamPrint();
 
 private:
   //二分查找value
@@ -204,6 +207,7 @@ inline bool MyCompareE(const char (&rhs)[64], const char (&lhs)[64]) {
 
 inline database::database(const string &name) {
   datafile.Setfile(name);
+  //datafile.Clear();
   if (datafile.IS_FIRST_OPEN()) {
     empt = true;
     datafile.initialise();
@@ -239,7 +243,7 @@ inline int database::BinarySearch(const int &val, const partB &block,
     if (MyCompareL(index, block.elem[mid].index)) {
       left = mid + 1;
     } else if (MyCompareS(index, block.elem[mid].index)) {
-      right = mid - 1;
+      right = mid;
     } else {
       value = block.elem[mid].value;
       if (value < val) {
@@ -256,6 +260,7 @@ inline int database::BinarySearch(const int &val, const partB &block,
   } else if (block.elem[right].value < val) {
     have_val = false;
   }
+  //if(right<0)right=0;
   return right;
 }
 
@@ -263,6 +268,7 @@ inline void database::ADD(const int &val, partB &block,
                           const char (&index)[64]) {
   checkbeg = false;
   int pos = BinarySearch(val, block, index);
+  //std::cout<<pos<<'\n';
   data add;
   initchar(add.index, index);
   add.value = val;
@@ -548,18 +554,51 @@ inline void database::Find(const std::string &ind) {
 inline void database::BREAK(partA &A, partB &B) {
   partA nextA;
   partB nextB;
+  nextB.size = 0;
   nextA.next = A.next;
   data tmp;
   int num = B.size - BLOCKSIZE / 2;
   for (int i = 0; i < BLOCKSIZE / 2; i++) {
     nextB.elem[i] = B.elem[num + i];
-    B.elem[num + i]=tmp;
+    B.elem[num + i] = tmp;
     B.size--;
     nextB.size++;
   }
   nextA.first = nextB.elem[0];
   nextA.blockpos = datafile.writeB(nextB);
   A.next = datafile.writeA(nextA);
+}
+
+inline void database::StreamPrint() {
+  if (empt) {
+    std::cout << "NOW EMPTY\n";
+  } else {
+    datafile.Op();
+    int p = sizeof(int), lastp = p;
+    partA stream;
+    partB seeB;
+    datafile.readA(stream, p);
+    while (true) {
+      datafile.readB(seeB, stream.blockpos);
+      for (int i = 0; i < seeB.size; i++) {
+        std::cout << "Value: " << seeB.elem[i].value << " | Index:";
+        for (int j = 0; j < 64; j++) {
+          if (seeB.elem[i].index[j] == '\0') {
+            break;
+          }
+          std::cout << seeB.elem[i].index[j];
+        }
+        std::cout << '\n';
+      }
+      std::cout << "|BLOCK OVER|\n";
+      p = stream.next;
+      if (p == -1) {
+        break;
+      }
+      datafile.readA(stream, p);
+    }
+    datafile.Cl();
+  }
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 int main() {
@@ -580,6 +619,9 @@ int main() {
     } else if (statment == "find") {
       std::cin >> ind;
       ans.Find(ind);
+    } else if (statment == "look") {
+      std::cout << "LIST:\n";
+      ans.StreamPrint();
     }
   }
   return 0;
