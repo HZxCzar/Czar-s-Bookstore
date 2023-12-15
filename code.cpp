@@ -13,6 +13,7 @@
 #include <cstdio>
 #include <iostream>
 #include <string>
+
 int main() {
   // std::remove(ACCOUNTKEY.c_str());
   // std::remove(ACCOUNTVAL.c_str());
@@ -26,6 +27,7 @@ int main() {
   // std::remove(KEYWORDVAL.c_str());
   // std::remove(LOGKEY.c_str());
   // std::remove(LOGVAL.c_str());
+  bool s = false;
   accountsystem ACCOUNTSYSTEM;
   BookSystem BOOKSYSTEM;
   Logsystem LOGSYSTEM;
@@ -36,21 +38,19 @@ int main() {
   while (true) {
     // std::cout<<"ENTER\n";
     getline(std::cin, input);
-    if(std::cin.eof())
-    {
+    if (std::cin.eof()) {
       return 0;
     }
     tokenscanner.SetInput(input);
     if (!tokenscanner.hasMoreToken()) {
       continue;
     }
-    string ord=tokenscanner.BehindToken();
-    if(!tokenscanner.ALLASCILL(ord))
-    {
-      std::cout<<"Invalid\n";
+    string ord = tokenscanner.BehindToken();
+    if (!tokenscanner.ALLASCILL(ord)) {
+      std::cout << "Invalid\n";
       continue;
     }
-    //Logsystem TEST;
+    // Logsystem TEST;
     token = tokenscanner.NextToken();
     if (token == "su") {
       if (ACCOUNTSYSTEM.GetPriv() >= 0) {
@@ -161,9 +161,9 @@ int main() {
     } else if (token == "buy") {
       if (ACCOUNTSYSTEM.GetPriv() >= 1) {
         ord = tokenscanner.BehindToken();
-        tokenscanner.NextKeyword();
-        tokenscanner.NextKeyword();
-        if (tokenscanner.hasMoreToken()) {
+        tokenscanner.NextISBN();
+        tokenscanner.NextToken();
+        if (tokenscanner.hasMoreToken()) { // hasMore如何界定“”
           std::cout << "Invalid\n";
           continue;
         }
@@ -173,7 +173,7 @@ int main() {
       }
     } else if (token == "select") {
       if (ACCOUNTSYSTEM.GetPriv() >= 3) {
-        ord = tokenscanner.NextToken();
+        ord = tokenscanner.NextISBN();
         if (tokenscanner.hasMoreToken()) {
           std::cout << "Invalid\n";
           continue;
@@ -188,9 +188,11 @@ int main() {
         if (ACCOUNTSYSTEM.IFSELECT()) {
           ord = tokenscanner.BehindToken();
           ISBN = ACCOUNTSYSTEM.GETSELECT();
-          BOOKSYSTEM.Modify(ISBN, ord);
-          //std::cout<<"NEW SELECT"<<ISBN<<'\n';
-          ACCOUNTSYSTEM.SelectBook(ISBN);
+          BOOKSYSTEM.Modify(ISBN, ord, s);
+          // std::cout<<"NEW SELECT"<<ISBN<<'\n';
+          if (s) {
+            ACCOUNTSYSTEM.SelectBook(ISBN);
+          }
         } else {
           std::cout << "Invalid\n";
         }
@@ -201,8 +203,8 @@ int main() {
       if (ACCOUNTSYSTEM.GetPriv() >= 3) {
         if (ACCOUNTSYSTEM.IFSELECT()) {
           ord = tokenscanner.BehindToken();
-          tokenscanner.NextKeyword();
-          tokenscanner.NextKeyword();
+          tokenscanner.NextISBN();
+          tokenscanner.NextToken();
           if (tokenscanner.hasMoreToken()) {
             std::cout << "Invalid\n";
             continue;

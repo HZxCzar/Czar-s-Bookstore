@@ -435,7 +435,7 @@ inline void BookSystem::show(const string &input) {
         std::cout << "Invalid\n";
         return;
       }
-      token = tokenscanner.NextToken();
+      token = tokenscanner.NextISBN();
       Book_ISBN ins;
       Turn20(ins.ISBN, token);
       long long p, lastp;
@@ -559,9 +559,17 @@ inline void BookSystem::Buy(const string &input) {
   TokenScanner tokenscanner;
   tokenscanner.SetInput(input);
   string token;
-  token = tokenscanner.NextToken();
+  if (!tokenscanner.hasMoreToken()) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  token = tokenscanner.NextISBN();
   Book_ISBN ins;
   Turn20(ins.ISBN, token);
+  if (!tokenscanner.hasMoreToken()) {
+    std::cout << "Invalid\n";
+    return;
+  }
   token = tokenscanner.NextToken();
   if (token[0] == '-') {
     std::cout << "Invalid\n";
@@ -634,7 +642,8 @@ inline void BookSystem::Select(const string &input) {
   }
 }
 
-inline void BookSystem::Modify(string &_ISBN, const string &input) {
+inline void BookSystem::Modify(string &_ISBN, const string &input, bool &s) {
+  s = false;
   if (_ISBN.empty()) {
     std::cout << "Invalid\n";
     return;
@@ -673,7 +682,7 @@ inline void BookSystem::Modify(string &_ISBN, const string &input) {
         return;
       }
       IS = true;
-      token = tokenscanner.NextToken();
+      token = tokenscanner.NextISBN();
       char check[20] = {};
       Turn20(check, token);
       Book_ISBN ins;
@@ -782,6 +791,7 @@ inline void BookSystem::Modify(string &_ISBN, const string &input) {
       // aftK.PRINT();
     }
   }
+  s = true;
 }
 
 inline void BookSystem::Import(const string &_ISBN, const string &input) {

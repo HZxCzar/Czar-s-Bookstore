@@ -8,12 +8,9 @@ inline void TokenScanner::SetInput(const string &inp) {
   len = line.size();
 }
 
-inline bool TokenScanner::ALLASCILL(const string &str)
-{
-  for(int i=0;i<str.size();i++)
-  {
-    if(!ISASCLL(str[i]))
-    {
+inline bool TokenScanner::ALLASCILL(const string &str) {
+  for (int i = 0; i < str.size(); i++) {
+    if (!ISASCLL(str[i])) {
       return false;
     }
   }
@@ -39,6 +36,19 @@ inline bool TokenScanner::hasMoreToken() {
     }
   }
   return flag;
+}
+inline string TokenScanner::NextISBN() {
+  while (pos < len &&
+         (line[pos] == '\r' || line[pos] == ' ' || line[pos] == '\n' ||
+          line[pos] == '\0' || line[pos] == '=')) {
+    pos++;
+  }
+  int n1 = pos;
+  while (pos < len && line[pos] != ' ' && line[pos] != '\n' &&
+         line[pos] != '\0' && line[pos] != '=' && line[pos] != '\r') {
+    pos++;
+  }
+  return line.substr(n1, pos - n1);
 }
 
 inline string TokenScanner::NextToken() {

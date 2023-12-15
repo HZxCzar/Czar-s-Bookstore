@@ -6,7 +6,7 @@
 #include <cstddef>
 //基础数据结构
 struct Book {
-  //Book() = default;
+  // Book() = default;
   char ISBN[20] = {};
   char BookName[60] = {};
   char Author[60] = {};
@@ -14,7 +14,7 @@ struct Book {
   size_t Quantity = 0;
   double Price = 0.00;
   double TotalCost = 0.00;
-  //void print()const;
+  // void print()const;
 };
 //派生类数据结构
 struct Book_ISBN : Book {
@@ -22,15 +22,15 @@ struct Book_ISBN : Book {
   Book_ISBN(Book &init);
   bool operator<(const Book &) const;
   bool operator>(const Book &) const;
-  void print()const;
+  void print() const;
 };
 struct Book_NAME : Book {
   Book_NAME() = default;
   Book_NAME(Book &init);
   bool operator<(const Book &) const;
   bool operator>(const Book &) const;
-  bool operator==(const Book &)const;
-  void print()const;
+  bool operator==(const Book &) const;
+  void print() const;
   // void print()const;
 };
 struct Book_AUTHOR : Book {
@@ -38,8 +38,8 @@ struct Book_AUTHOR : Book {
   Book_AUTHOR(Book &init);
   bool operator<(const Book &) const;
   bool operator>(const Book &) const;
-  bool operator==(const Book &)const;
-  void print()const;
+  bool operator==(const Book &) const;
+  void print() const;
   // void print()const;
 };
 struct Book_KEYWORD : Book {
@@ -47,14 +47,15 @@ struct Book_KEYWORD : Book {
   Book_KEYWORD(Book &init);
   bool operator<(const Book &) const;
   bool operator>(const Book &) const;
-  bool operator==(const Book &)const;
+  bool operator==(const Book &) const;
   void givemessage(string &elem);
-  void print()const;
+  void print() const;
   // void print()const;
 };
 class BookSystem {
   friend class Logsystem;
   friend class database<Book_ISBN>;
+
 public:
   BookSystem(const string &keyname1 = ISBNKEY,
              const string &valuename1 = ISBNVAL,
@@ -67,9 +68,9 @@ public:
   void show(const string &);
   void Buy(const string &);
   void Select(const string &);
-  void Modify(string &_ISBN, const string &input);
+  void Modify(string &_ISBN, const string &input, bool &s);
   void Import(const string &_ISBN, const string &input);
-  //void CLOSE(){ISBNdata.CL();NAMEdata.CL();AUTHORdata.CL();KEYWORDdata.CL();}
+  // void CLOSE(){ISBNdata.CL();NAMEdata.CL();AUTHORdata.CL();KEYWORDdata.CL();}
 private:
   database<Book_ISBN> ISBNdata;
   database<Book_NAME> NAMEdata;
