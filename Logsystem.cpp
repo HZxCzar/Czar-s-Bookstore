@@ -70,10 +70,20 @@ inline void Logsystem::ShowFinance(const string &input) {
     }
     num = add.seq+1;
     string token = tokenScanner.NextToken();
+    if(!tokenScanner.ISDIGIT(token))
+    {
+      std::cout<<"Invalid\n";
+      return;
+    }
     size_t n = tokenScanner.StringToSizeT(token);
     //std::cout<<"num:"<<num<<" n:"<<n<<'\n';
     basis.seq = num - n;
-    if(basis.seq<0 || n<=0)
+    if(n==0)
+    {
+      std::cout<<"\n";
+      return;
+    }
+    if(basis.seq<0)
     {
       std::cout<<"Invalid\n";
       return;
