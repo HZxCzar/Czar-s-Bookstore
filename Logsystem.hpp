@@ -6,8 +6,8 @@
 #include <string>
 struct LogData{
     long long seq;
-    double in;
-    double out;
+    long double in;
+    long double out;
     bool operator<(const LogData& rhs)const;
     bool operator>(const LogData& rhs)const;
     void print()const{std::cout<<"in:"<<in<<"out:"<<out<<'\n';return;}
@@ -16,8 +16,8 @@ class Logsystem{
     friend class database<LogData>;
     public:
     Logsystem(const string& keyname=LOGKEY,const string& valuename=LOGVAL);
-    void IN(const double& input);
-    void OUT(const double& input);
+    void IN(const long double& input);
+    void OUT(const long double& input);
     void ShowFinance(const string& input);
     private:
     //long long num=0;

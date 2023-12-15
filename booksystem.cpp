@@ -579,7 +579,7 @@ inline void BookSystem::Buy(const string &input) {
     return;
   }
   Book_ISBN tag = ISBNdata.Get(p, pos);
-  double pay = tag.Price * Quant * 1.00;
+  long double pay = tag.Price * Quant * 1.00;
   if (tag.Quantity < Quant || Quant <= 0) {
     std::cout << "Invalid\n";
     return;
@@ -733,7 +733,7 @@ inline void BookSystem::Modify(string &_ISBN, const string &input) {
       }
       PR = true;
       token = tokenscanner.NextToken();
-      double p = tokenscanner.StringToDouble(token) * 1.00;
+      long double p = tokenscanner.StringToDouble(token) * 1.00;
       after.Price = p;
     }
   }
@@ -826,7 +826,7 @@ inline void BookSystem::Import(const string &_ISBN, const string &input) {
     std::cout << "Invalid\n";
     return;
   }
-  double totcost = tokenscanner.StringToDouble(token);
+  long double totcost = tokenscanner.StringToDouble(token);
   totcost *= 1.00;
   if (totcost == 0.00) {
     std::cout << "Invalid\n";
@@ -851,7 +851,7 @@ inline void BookSystem::Import(const string &_ISBN, const string &input) {
   // KEYWORDdata.Update(insK, p, pos);
 
   //修改日志
-  double pay = totcost * 1.00;
+  long double pay = totcost * 1.00;
   // std::cout<<"pay"<<pay<<'\n';
   Logsystem LOGSYSTEM;
   LOGSYSTEM.OUT(pay);

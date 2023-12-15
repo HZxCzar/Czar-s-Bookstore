@@ -22,7 +22,7 @@ inline bool LogData::operator>(const LogData &rhs) const {
   return false;
 }
 
-inline void Logsystem::IN(const double &input) {
+inline void Logsystem::IN(const long double &input) {
   LogData add;
   //std::cout << "INPUT:" << input;
   if (!logdatabase.empt) {
@@ -41,7 +41,7 @@ inline void Logsystem::IN(const double &input) {
   logdatabase.ADD(add);
 }
 
-inline void Logsystem::OUT(const double &input) {
+inline void Logsystem::OUT(const long double &input) {
   LogData add;
   if (!logdatabase.empt) {
     add = logdatabase.Get(sizeof(long long), 0);
