@@ -8,12 +8,21 @@ inline void TokenScanner::SetInput(const string &inp) {
   len = line.size();
 }
 
-inline bool TokenScanner::ISDIGIT(const string &str)
+inline bool TokenScanner::ALLASCILL(const string &str)
 {
   for(int i=0;i<str.size();i++)
   {
-    if(str[i]>'9' || str[i]<'0')
+    if(!ISASCLL(str[i]))
     {
+      return false;
+    }
+  }
+  return true;
+}
+
+inline bool TokenScanner::ISDIGIT(const string &str) {
+  for (int i = 0; i < str.size(); i++) {
+    if (str[i] > '9' || str[i] < '0') {
       return false;
     }
   }
@@ -23,8 +32,8 @@ inline bool TokenScanner::ISDIGIT(const string &str)
 inline bool TokenScanner::hasMoreToken() {
   bool flag = false;
   for (int i = pos; i < len; i++) {
-    if (line[i] != '\n' && line[i] != ' ' && line[i] != '\0' &&
-        line[i] != '|' && line[i] != '"') {
+    if (line[i] != '\n' && line[i] != '\r' && line[i] != ' ' &&
+        line[i] != '\0' && line[i] != '|' && line[i] != '"') {
       flag = true;
       break;
     }
@@ -34,13 +43,14 @@ inline bool TokenScanner::hasMoreToken() {
 
 inline string TokenScanner::NextToken() {
   while (pos < len &&
-         (line[pos] == ' ' || line[pos] == '\n' || line[pos] == '\0' ||
-          line[pos] == '=' || line[pos] == '"')) {
+         (line[pos] == '\r' || line[pos] == ' ' || line[pos] == '\n' ||
+          line[pos] == '\0' || line[pos] == '=' || line[pos] == '"')) {
     pos++;
   }
   int n1 = pos;
   while (pos < len && line[pos] != ' ' && line[pos] != '\n' &&
-         line[pos] != '\0' && line[pos] != '=' && line[pos] != '"') {
+         line[pos] != '\0' && line[pos] != '=' && line[pos] != '"' &&
+         line[pos] != '\r') {
     pos++;
   }
   return line.substr(n1, pos - n1);
@@ -48,14 +58,15 @@ inline string TokenScanner::NextToken() {
 
 inline string TokenScanner::NextKeyword() {
   while (pos < len &&
-         (line[pos] == ' ' || line[pos] == '\n' || line[pos] == '\0' ||
-          line[pos] == '=' || line[pos] == '|' || line[pos] == '"')) {
+         (line[pos] == '\r' || line[pos] == ' ' || line[pos] == '\n' ||
+          line[pos] == '\0' || line[pos] == '=' || line[pos] == '|' ||
+          line[pos] == '"')) {
     pos++;
   }
   int n1 = pos;
   while (pos < len && line[pos] != '|' && line[pos] != '\n' &&
          line[pos] != '\0' && line[pos] != '=' && line[pos] != ' ' &&
-         line[pos] != '"') {
+         line[pos] != '"' && line[pos] != '\r') {
     pos++;
   }
   return line.substr(n1, pos - n1);

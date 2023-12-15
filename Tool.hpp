@@ -1,5 +1,6 @@
 #ifndef _TOOL_HPP
 #define _TOOL_HPP
+#include <cctype>
 #include <cstddef>
 #include<iostream>
 #include <string>
@@ -16,6 +17,7 @@ class TokenScanner{
     double StringToDouble(const string& str);
     string BehindToken();
     bool ISDIGIT(const string& str);
+    bool ALLASCILL(const string& str);
     private:
     string line;
     int pos=0;
@@ -46,5 +48,10 @@ inline void Turn30(char (&t)[30],const string& targ)
     {
         t[i]=targ[i];
     }
+}
+
+inline bool ISASCLL(const char& tmp)
+{
+    return (tmp>=0 && tmp<=127);
 }
 #endif

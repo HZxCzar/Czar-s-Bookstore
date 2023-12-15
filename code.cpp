@@ -44,6 +44,12 @@ int main() {
     if (!tokenscanner.hasMoreToken()) {
       continue;
     }
+    string ord=tokenscanner.BehindToken();
+    if(!tokenscanner.ALLASCILL(ord))
+    {
+      std::cout<<"Invalid\n";
+      continue;
+    }
     //Logsystem TEST;
     token = tokenscanner.NextToken();
     if (token == "su") {
