@@ -14,6 +14,15 @@ public:
   std::string NextToken();
   std::string NextKeyword();
   std::string NextISBN();
+  void AD(){pos++;}
+  bool ISUSERID();
+  bool ISUSERNAME();
+  bool ISPRIVILEGE();
+  bool ISISBN();
+  bool ISNAME();
+  bool ISQUANTITY();
+  bool ISPRICE();
+  bool ISCOUNT();
   size_t StringToSizeT(const string &str);
   double StringToDouble(const string &str);
   string BehindToken();

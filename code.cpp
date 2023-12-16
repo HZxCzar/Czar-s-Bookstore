@@ -35,6 +35,7 @@ int main() {
   string input;
   string token, check;
   string ord, ISBN;
+  TokenScanner tmpck;
   while (true) {
     // std::cout<<"ENTER\n";
     getline(std::cin, input);
@@ -137,7 +138,6 @@ int main() {
         ord = tokenscanner.BehindToken();
         if (ACCOUNTSYSTEM.GetPriv() >= 7) {
           tokenscanner.NextKeyword();
-          tokenscanner.NextKeyword();
           if (tokenscanner.hasMoreToken()) {
             std::cout << "Invalid\n";
             continue;
@@ -148,10 +148,18 @@ int main() {
         }
       } else {
         if (ACCOUNTSYSTEM.GetPriv() >= 1) {
-          tokenscanner.NextKeyword();
           if (tokenscanner.hasMoreToken()) {
-            std::cout << "Invalid\n";
-            continue;
+            token = tokenscanner.BehindToken();
+            if (token[0] != '=') {
+              std::cout << "Invalid\n";
+              continue;
+            }
+            tokenscanner.AD();
+            token=tokenscanner.NextToken();
+            if (tokenscanner.hasMoreToken()) {
+              std::cout << "Invalid\n";
+              continue;
+            }
           }
           BOOKSYSTEM.show(ord);
         } else {
@@ -174,6 +182,11 @@ int main() {
     } else if (token == "select") {
       if (ACCOUNTSYSTEM.GetPriv() >= 3) {
         ord = tokenscanner.NextISBN();
+        tmpck.SetInput(ord);
+        if (!tmpck.ISISBN()) {
+          std::cout << "Invalid\n";
+          continue;
+        }
         if (tokenscanner.hasMoreToken()) {
           std::cout << "Invalid\n";
           continue;
@@ -189,7 +202,7 @@ int main() {
           ord = tokenscanner.BehindToken();
           ISBN = ACCOUNTSYSTEM.GETSELECT();
           BOOKSYSTEM.Modify(ISBN, ord, s);
-          // std::cout<<"NEW SELECT"<<ISBN<<'\n';
+          //std::cout<<"NEW SELECT"<<ISBN<<'\n';
           if (s) {
             ACCOUNTSYSTEM.SelectBook(ISBN);
           }

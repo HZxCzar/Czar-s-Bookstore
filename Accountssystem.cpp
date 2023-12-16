@@ -37,12 +37,18 @@ inline bool Account::operator>(const Account &rhs) const {
 
 inline void accountsystem::Su(const string &input) {
   TokenScanner tokenScanner;
+  TokenScanner tmpck;
   tokenScanner.SetInput(input);
   if (!tokenScanner.hasMoreToken()) {
     std::cout << "Invalid\n";
     return;
   }
   string token = tokenScanner.NextToken();
+  tmpck.SetInput(token);
+  if (!tmpck.ISUSERID()) {
+    std::cout << "Invalid\n";
+    return;
+  }
   Account basis;
   Turn30(basis.UserID, token);
   long long p, pos;
@@ -63,6 +69,11 @@ inline void accountsystem::Su(const string &input) {
   }
   if (tokenScanner.hasMoreToken()) {
     token = tokenScanner.NextToken();
+    tmpck.SetInput(token);
+    if (!tmpck.ISUSERID()) {
+      std::cout << "Invalid\n";
+      return;
+    }
     char check[30] = {};
     Turn30(check, token);
     if (std::memcmp(check, basis.Password, 30)) {
@@ -89,12 +100,18 @@ inline void accountsystem::Logout() {
 
 inline void accountsystem::Register(const string &input) {
   TokenScanner tokenScanner;
+  TokenScanner tmpck;
   tokenScanner.SetInput(input);
   if (!tokenScanner.hasMoreToken()) {
     std::cout << "Invalid\n";
     return;
   }
   string token = tokenScanner.NextToken();
+  tmpck.SetInput(token);
+  if (!tmpck.ISUSERID()) {
+    std::cout << "Invalid\n";
+    return;
+  }
   Account basis;
   Turn30(basis.UserID, token);
   long long p, pos;
@@ -108,12 +125,22 @@ inline void accountsystem::Register(const string &input) {
     return;
   }
   token = tokenScanner.NextToken();
+  tmpck.SetInput(token);
+  if (!tmpck.ISUSERID()) {
+    std::cout << "Invalid\n";
+    return;
+  }
   Turn30(basis.Password, token);
   if (!tokenScanner.hasMoreToken()) {
     std::cout << "Invalid\n";
     return;
   }
   token = tokenScanner.NextToken();
+  tmpck.SetInput(token);
+  if (!tmpck.ISUSERNAME()) {
+    std::cout << "Invalid\n";
+    return;
+  }
   Turn30(basis.Username, token);
   basis.privilege = 1;
   accountdata.ADD(basis);
@@ -121,12 +148,18 @@ inline void accountsystem::Register(const string &input) {
 
 inline void accountsystem::Passwd(const string &input) {
   TokenScanner tokenScanner;
+  TokenScanner tmpck;
   tokenScanner.SetInput(input);
   if (!tokenScanner.hasMoreToken()) {
     std::cout << "Invalid\n";
     return;
   }
   string token = tokenScanner.NextToken();
+  tmpck.SetInput(token);
+  if (!tmpck.ISUSERID()) {
+    std::cout << "Invalid\n";
+    return;
+  }
   Account basis;
   Turn30(basis.UserID, token);
   long long p, pos;
@@ -143,8 +176,18 @@ inline void accountsystem::Passwd(const string &input) {
   if (LoginStack.back().pri == 7) {
     string token1, token2;
     token1 = tokenScanner.NextToken();
+    tmpck.SetInput(token1);
+    if (!tmpck.ISUSERID()) {
+      std::cout << "Invalid\n";
+      return;
+    }
     if (tokenScanner.hasMoreToken()) {
       token = tokenScanner.NextToken();
+      tmpck.SetInput(token);
+      if (!tmpck.ISUSERID()) {
+        std::cout << "Invalid\n";
+        return;
+      }
       char check[30] = {};
       Turn30(check, token1);
       if (std::memcmp(check, basis.Password, 30)) {
@@ -156,6 +199,11 @@ inline void accountsystem::Passwd(const string &input) {
     }
   } else {
     token = tokenScanner.NextToken();
+    tmpck.SetInput(token);
+    if (!tmpck.ISUSERID()) {
+      std::cout << "Invalid\n";
+      return;
+    }
     char check[30] = {};
     Turn30(check, token);
     if (std::memcmp(check, basis.Password, 30)) {
@@ -167,6 +215,11 @@ inline void accountsystem::Passwd(const string &input) {
       return;
     }
     token = tokenScanner.NextToken();
+    tmpck.SetInput(token);
+    if (!tmpck.ISUSERID()) {
+      std::cout << "Invalid\n";
+      return;
+    }
   }
   Turn30(basis.Password, token);
   accountdata.Update(basis, p, pos);
@@ -174,12 +227,18 @@ inline void accountsystem::Passwd(const string &input) {
 
 inline void accountsystem::useradd(const string &input) {
   TokenScanner tokenScanner;
+  TokenScanner tmpck;
   tokenScanner.SetInput(input);
   if (!tokenScanner.hasMoreToken()) {
     std::cout << "Invalid\n";
     return;
   }
   string token = tokenScanner.NextToken();
+  tmpck.SetInput(token);
+  if (!tmpck.ISUSERID()) {
+    std::cout << "Invalid\n";
+    return;
+  }
   Account basis;
   Turn30(basis.UserID, token);
   long long p, pos;
@@ -193,12 +252,22 @@ inline void accountsystem::useradd(const string &input) {
     return;
   }
   token = tokenScanner.NextToken();
+  tmpck.SetInput(token);
+  if (!tmpck.ISUSERID()) {
+    std::cout << "Invalid\n";
+    return;
+  }
   Turn30(basis.Password, token);
   if (!tokenScanner.hasMoreToken()) {
     std::cout << "Invalid\n";
     return;
   }
   token = tokenScanner.NextToken();
+  tmpck.SetInput(token);
+  if (!tmpck.ISPRIVILEGE()) {
+    std::cout << "Invalid\n";
+    return;
+  }
   long long priv = token[0] - '0';
   if (priv != 0 && priv != 1 && priv != 3 && priv != 7) {
     std::cout << "Invalid\n";
@@ -214,18 +283,29 @@ inline void accountsystem::useradd(const string &input) {
     return;
   }
   token = tokenScanner.NextToken();
+  tmpck.SetInput(token);
+  if (!tmpck.ISUSERNAME()) {
+    std::cout << "Invalid\n";
+    return;
+  }
   Turn30(basis.Username, token);
   accountdata.ADD(basis);
 }
 
 inline void accountsystem::Delete(const string &input) {
   TokenScanner tokenScanner;
+  TokenScanner tmpck;
   tokenScanner.SetInput(input);
   if (!tokenScanner.hasMoreToken()) {
     std::cout << "Invalid\n";
     return;
   }
   string token = tokenScanner.NextToken();
+  tmpck.SetInput(token);
+  if (!tmpck.ISUSERID()) {
+    std::cout << "Invalid\n";
+    return;
+  }
   Account basis;
   Turn30(basis.UserID, token);
   long long p, pos;

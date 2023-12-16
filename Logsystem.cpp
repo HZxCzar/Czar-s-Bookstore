@@ -1,4 +1,5 @@
 #include "Logsystem.hpp"
+#include "Tool.hpp"
 #include "database.hpp"
 #include <cstddef>
 #include <iostream>
@@ -57,6 +58,7 @@ inline void Logsystem::OUT(const long double &input) {
 inline void Logsystem::ShowFinance(const string &input) {
   logdatabase.Set(LOGKEY, LOGVAL);
   TokenScanner tokenScanner;
+  TokenScanner tmpck;
   tokenScanner.SetInput(input);
   LogData basis;
   long long p, pos;
@@ -70,13 +72,19 @@ inline void Logsystem::ShowFinance(const string &input) {
     }
     num = add.seq+1;
     string token = tokenScanner.NextToken();
-    if(!tokenScanner.ISDIGIT(token))
+    tmpck.SetInput(token);
+    if(!tmpck.ISCOUNT())
     {
       std::cout<<"Invalid\n";
       return;
     }
     size_t n = tokenScanner.StringToSizeT(token);
     //std::cout<<"num:"<<num<<" n:"<<n<<'\n';
+    if(n>2147483647)
+    {
+      std::cout<<"Invalid\n";
+      return;
+    }
     basis.seq = num - n;
     if(n==0)
     {
