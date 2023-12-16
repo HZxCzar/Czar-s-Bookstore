@@ -133,7 +133,7 @@ int main() {
       }
     } else if (token == "show") {
       ord = tokenscanner.BehindToken();
-      token = tokenscanner.NextToken();
+      token = tokenscanner.NextTokenNIC();
       if (token == "finance") {
         ord = tokenscanner.BehindToken();
         if (ACCOUNTSYSTEM.GetPriv() >= 7) {
@@ -150,6 +150,7 @@ int main() {
         if (ACCOUNTSYSTEM.GetPriv() >= 1) {
           if (tokenscanner.hasMoreToken()) {
             token = tokenscanner.BehindToken();
+            //std::cout<<token<<'\n';
             if (token[0] != '=') {
               std::cout << "Invalid\n";
               continue;
@@ -161,6 +162,7 @@ int main() {
               continue;
             }
           }
+          //std::cout<<"OK"<<ord<<'\n';
           BOOKSYSTEM.show(ord);
         } else {
           std::cout << "Invalid\n";
@@ -170,7 +172,7 @@ int main() {
       if (ACCOUNTSYSTEM.GetPriv() >= 1) {
         ord = tokenscanner.BehindToken();
         tokenscanner.NextISBN();
-        tokenscanner.NextToken();
+        tokenscanner.NextTokenNIC();
         if (tokenscanner.hasMoreToken()) { // hasMore如何界定“”
           std::cout << "Invalid\n";
           continue;
@@ -217,7 +219,7 @@ int main() {
         if (ACCOUNTSYSTEM.IFSELECT()) {
           ord = tokenscanner.BehindToken();
           tokenscanner.NextISBN();
-          tokenscanner.NextToken();
+          tokenscanner.NextTokenNIC();
           if (tokenscanner.hasMoreToken()) {
             std::cout << "Invalid\n";
             continue;

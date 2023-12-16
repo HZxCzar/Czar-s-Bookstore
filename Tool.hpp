@@ -14,6 +14,7 @@ public:
   std::string NextToken();
   std::string NextKeyword();
   std::string NextISBN();
+  std::string NextTokenNIC();
   void AD(){pos++;}
   bool ISUSERID();
   bool ISUSERNAME();

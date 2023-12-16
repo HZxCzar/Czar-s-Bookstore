@@ -430,7 +430,8 @@ inline void BookSystem::show(const string &input) {
     // std::cout << '\n';
   } else {
     string token;
-    token = tokenscanner.NextToken();
+    token = tokenscanner.NextTokenNIC();
+    //std::cout<<token<<'\n';
     if (token == "-ISBN") {
       if (!tokenscanner.hasMoreToken()) {
         std::cout << "Invalid\n";
@@ -765,7 +766,7 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, bool &s) {
   string token;
   bool IS = false, NA = false, AU = false, KW = false, PR = false;
   while (tokenscanner.hasMoreToken()) {
-    token = tokenscanner.NextToken();
+    token = tokenscanner.NextTokenNIC();
     //std::cout<<"token:"<<token<<'\n';
     if (!tokenscanner.hasMoreToken()) {
       std::cout << "Invalid\n";

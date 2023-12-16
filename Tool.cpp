@@ -50,7 +50,8 @@ inline string TokenScanner::NextISBN() {
   return line.substr(n1, pos - n1);
 }
 
-inline string TokenScanner::NextToken() {
+inline string TokenScanner::NextTokenNIC()
+{
   while (pos < len && (line[pos] == '\r' || line[pos] == ' ' ||
                        line[pos] == '\n' || line[pos] == '\0')) {
     pos++;
@@ -58,6 +59,19 @@ inline string TokenScanner::NextToken() {
   int n1 = pos;
   while (pos < len && line[pos] != ' ' && line[pos] != '\n' &&
          line[pos] != '\0' && line[pos] != '\r' && line[pos] != '=') {
+    pos++;
+  }
+  return line.substr(n1, pos - n1);
+}
+
+inline string TokenScanner::NextToken() {
+  while (pos < len && (line[pos] == '\r' || line[pos] == ' ' ||
+                       line[pos] == '\n' || line[pos] == '\0')) {
+    pos++;
+  }
+  int n1 = pos;
+  while (pos < len && line[pos] != ' ' && line[pos] != '\n' &&
+         line[pos] != '\0' && line[pos] != '\r') {
     pos++;
   }
   return line.substr(n1, pos - n1);
