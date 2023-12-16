@@ -308,6 +308,47 @@ inline bool TokenScanner::ISPRICE() {
   return judge;
 }
 
+inline bool TokenScanner::ISKEYWORD()
+{
+  bool judge = true;
+  while (pos < len && (line[pos] == ' ')) {
+    pos++;
+  }
+  if (pos == len) {
+    return false;
+  }
+  long long p1 = pos;
+  bool listlen=false;
+  while (pos < len) {
+    if (pos - p1 >= 60) {
+      judge = false;
+    }
+    if (line[pos] < 32 || line[pos] > 126) {
+      judge = false;
+    }
+    if (line[pos] == '"') {
+      judge = false;
+    }
+    if(line[pos]=='|'&&listlen==true)
+    {
+      judge=false;
+    }
+    if(line[pos]=='|')
+    {
+      listlen=true;
+    }
+    if(line[pos]!='|')
+    {
+      listlen=false;
+    }
+    if (line[pos] == ' ') {
+      return judge;
+    }
+    pos++;
+  }
+  return judge;
+}
+
 inline bool TokenScanner::ISCOUNT() {
   bool judge = true;
   while (pos < len && (line[pos] == ' ')) {

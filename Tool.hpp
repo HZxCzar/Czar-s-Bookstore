@@ -22,6 +22,7 @@ public:
   bool ISISBN();
   bool ISNAME();
   bool ISQUANTITY();
+  bool ISKEYWORD();
   bool ISPRICE();
   bool ISCOUNT();
   size_t StringToSizeT(const string &str);

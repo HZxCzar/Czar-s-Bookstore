@@ -592,7 +592,7 @@ inline void BookSystem::show(const string &input) {
       }
       token.pop_back();
       tmpck.SetInput(token);
-      if (!tmpck.ISNAME()) {
+      if (!tmpck.ISKEYWORD()) {
         std::cout << "Invalid\n";
         return;
       }
@@ -891,7 +891,7 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, bool &s) {
       }
       token.pop_back();
       tmpck.SetInput(token);
-      if (!tmpck.ISNAME()) {
+      if (!tmpck.ISKEYWORD()) {
         std::cout << "Invalid\n";
         return;
       }
