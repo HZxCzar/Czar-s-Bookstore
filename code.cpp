@@ -39,12 +39,19 @@ int main() {
   TokenScanner tmpck;
   while (true) {
     // std::cout<<"ENTER\n";
-    getline(std::cin, input);
-    if (std::cin.eof()) {
-      return 0;
+    input.clear();
+    char t;
+    while((t=getchar())!='\n'&& t!='\r'&& t!=EOF)
+    {
+      input+=t;
     }
+    //getline(std::cin, input);
     tokenscanner.SetInput(input);
     if (!tokenscanner.hasMoreToken()) {
+      if(t==EOF)
+      {
+        return 0;
+      }
       continue;
     }
     string ord = tokenscanner.BehindToken();
