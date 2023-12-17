@@ -217,6 +217,37 @@ inline bool TokenScanner::ISISBN() {
   return judge;
 }
 
+inline bool TokenScanner::ISONEKEYWORD()
+{
+  bool judge = true;
+  while (pos < len && (line[pos] == ' ')) {
+    pos++;
+  }
+  if (pos == len) {
+    return false;
+  }
+  long long p1 = pos;
+  while (pos < len) {
+    if (pos - p1 >= 60) {
+      judge = false;
+    }
+    if (line[pos] < 32 || line[pos] > 126) {
+      judge = false;
+    }
+    if (line[pos] == '"') {
+      judge = false;
+    }
+    if (line[pos] == '|') {
+      judge = false;
+    }
+    if (line[pos] == ' ') {
+      return judge;
+    }
+    pos++;
+  }
+  return judge;
+}
+
 inline bool TokenScanner::ISNAME() {
   bool judge = true;
   while (pos < len && (line[pos] == ' ')) {

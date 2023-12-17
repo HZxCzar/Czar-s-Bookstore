@@ -594,7 +594,7 @@ inline void BookSystem::show(const string &input) {
       }
       token.pop_back();
       tmpck.SetInput(token);
-      if (!tmpck.ISKEYWORD()) {
+      if (!tmpck.ISONEKEYWORD()) {
         std::cout << "Invalid\n";
         return;
       }
