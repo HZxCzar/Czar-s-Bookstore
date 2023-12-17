@@ -139,7 +139,6 @@ int main() {
         std::cout << "Invalid\n";
       }
     } else if (token == "show") {
-      assert(0);
       ord = tokenscanner.BehindToken();
       token = tokenscanner.NextTokenNIC();
       if (token == "finance") {
@@ -209,6 +208,7 @@ int main() {
       }
     } else if (token == "modify") {
       if (ACCOUNTSYSTEM.GetPriv() >= 3) {
+        assert(0);
         if (ACCOUNTSYSTEM.IFSELECT()) {
           ord = tokenscanner.BehindToken();
           ISBN = ACCOUNTSYSTEM.GETSELECT();
