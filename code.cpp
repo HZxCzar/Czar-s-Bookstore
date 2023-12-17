@@ -56,6 +56,7 @@ int main() {
     token = tokenscanner.NextToken();
     if (token == "su") {
       if (ACCOUNTSYSTEM.GetPriv() >= 0) {
+        assert(0);
         ord = tokenscanner.BehindToken();
         tokenscanner.NextToken();
         tokenscanner.NextToken();
@@ -79,7 +80,6 @@ int main() {
       }
     } else if (token == "register") {
       if (ACCOUNTSYSTEM.GetPriv() >= 0) {
-        assert(0);
         ord = tokenscanner.BehindToken();
         tokenscanner.NextToken();
         tokenscanner.NextToken();
