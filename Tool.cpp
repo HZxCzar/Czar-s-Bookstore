@@ -30,8 +30,7 @@ inline bool TokenScanner::ISDIGIT(const string &str) {
 inline bool TokenScanner::hasMoreToken() {
   bool flag = false;
   for (int i = pos; i < len; i++) {
-    if (line[i] != '\n' && line[i] != '\r' && line[i] != ' ' &&
-        line[i] != '\0' && line[i] != '|' && line[i] != '"') {
+    if (line[i] != ' ') {
       flag = true;
       break;
     }
