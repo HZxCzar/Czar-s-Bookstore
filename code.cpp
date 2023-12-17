@@ -79,6 +79,7 @@ int main() {
       }
     } else if (token == "register") {
       if (ACCOUNTSYSTEM.GetPriv() >= 0) {
+        assert(0);
         ord = tokenscanner.BehindToken();
         tokenscanner.NextToken();
         tokenscanner.NextToken();
@@ -93,7 +94,6 @@ int main() {
       }
     } else if (token == "passwd") {
       if (ACCOUNTSYSTEM.GetPriv() >= 1) {
-        assert(0);
         ord = tokenscanner.BehindToken();
         tokenscanner.NextToken();
         tokenscanner.NextToken();
