@@ -415,25 +415,11 @@ inline void BookSystem::show(const string &input) {
   TokenScanner tokenscanner;
   TokenScanner tmpck;
   tokenscanner.SetInput(input);
-  // Book_ISBN ch=ISBNdata.Get(8,0);
-  // ch.print();
-  // exit(0);
-  //  A<Book_ISBN> ts;
-  //   B<Book_ISBN> tes;
-  //   ISBNdata.Afile.readA(ts,8);
-  //   ISBNdata.Bfile.readA(tes,ts.pos);
-  //   std::cout<<tes.size;
-  //   tes.elem[0].print();exit(0);
-  // exit(0);
-  //  tes.elem[0].print();
   if (!tokenscanner.hasMoreToken()) {
-    // std::cout<<"HERE";
     ISBNdata.PRINT();
-    // std::cout << '\n';
   } else {
     string token;
     token = tokenscanner.NextTokenNIC();
-    // std::cout<<token<<'\n';
     if (token == "-ISBN") {
       if (!tokenscanner.hasMoreToken()) {
         std::cout << "Invalid\n";

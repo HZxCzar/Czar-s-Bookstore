@@ -98,6 +98,7 @@ int main() {
         std::cout << "Invalid\n";
       }
     } else if (token == "passwd") {
+      assert(0);
       if (ACCOUNTSYSTEM.GetPriv() >= 1) {
         ord = tokenscanner.BehindToken();
         tokenscanner.NextToken();
@@ -113,13 +114,14 @@ int main() {
       }
     } else if (token == "useradd") {
       if (ACCOUNTSYSTEM.GetPriv() >= 3) {
+        assert(0);
         ord = tokenscanner.BehindToken();
         tokenscanner.NextToken();
         tokenscanner.NextToken();
         tokenscanner.NextToken();
         tokenscanner.NextToken();
         if (tokenscanner.hasMoreToken()) {
-          std::cout << "?Invalid\n";
+          std::cout << "Invalid\n";
           continue;
         }
         ACCOUNTSYSTEM.useradd(ord);
@@ -127,6 +129,7 @@ int main() {
         std::cout << "Invalid\n";
       }
     } else if (token == "delete") {
+      assert(0);
       if (ACCOUNTSYSTEM.GetPriv() >= 7) {
         ord = tokenscanner.BehindToken();
         tokenscanner.NextToken();
@@ -163,7 +166,7 @@ int main() {
               continue;
             }
             tokenscanner.AD();
-            token=tokenscanner.NextToken();
+            token=tokenscanner.NextFollow();
             //std::cout<<"Token:"<<token<<'\n';
             if (tokenscanner.hasMoreToken()) {
               std::cout << "Invalid\n";
@@ -226,7 +229,6 @@ int main() {
         std::cout << "Invalid\n";
       }
     } else if (token == "import") {
-      assert(0);
       if (ACCOUNTSYSTEM.GetPriv() >= 3) {
         if (ACCOUNTSYSTEM.IFSELECT()) {
           ord = tokenscanner.BehindToken();
