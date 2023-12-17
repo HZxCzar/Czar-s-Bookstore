@@ -13,6 +13,7 @@
 #include <cstdio>
 #include <iostream>
 #include <string>
+#include <cassert>
 
 int main() {
   // std::remove(ACCOUNTKEY.c_str());
@@ -92,6 +93,7 @@ int main() {
       }
     } else if (token == "passwd") {
       if (ACCOUNTSYSTEM.GetPriv() >= 1) {
+        assert(0);
         ord = tokenscanner.BehindToken();
         tokenscanner.NextToken();
         tokenscanner.NextToken();
