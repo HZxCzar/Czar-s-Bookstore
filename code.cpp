@@ -59,7 +59,6 @@ int main() {
       std::cout << "Invalid\n";
       continue;
     }
-    // Logsystem TEST;
     token = tokenscanner.NextToken();
     if (token == "su") {
       if (ACCOUNTSYSTEM.GetPriv() >= 0) {
