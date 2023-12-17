@@ -98,7 +98,6 @@ int main() {
         std::cout << "Invalid\n";
       }
     } else if (token == "passwd") {
-      assert(0);
       if (ACCOUNTSYSTEM.GetPriv() >= 1) {
         ord = tokenscanner.BehindToken();
         tokenscanner.NextToken();
@@ -114,7 +113,6 @@ int main() {
       }
     } else if (token == "useradd") {
       if (ACCOUNTSYSTEM.GetPriv() >= 3) {
-        assert(0);
         ord = tokenscanner.BehindToken();
         tokenscanner.NextToken();
         tokenscanner.NextToken();
@@ -129,7 +127,6 @@ int main() {
         std::cout << "Invalid\n";
       }
     } else if (token == "delete") {
-      assert(0);
       if (ACCOUNTSYSTEM.GetPriv() >= 7) {
         ord = tokenscanner.BehindToken();
         tokenscanner.NextToken();
@@ -158,22 +155,19 @@ int main() {
         }
       } else {
         if (ACCOUNTSYSTEM.GetPriv() >= 1) {
-          if (tokenscanner.hasMoreToken()) {
-            token = tokenscanner.BehindToken();
-            //std::cout<<token<<'\n';
-            if (token[0] != '=') {
-              std::cout << "Invalid\n";
-              continue;
-            }
-            tokenscanner.AD();
-            token=tokenscanner.NextFollow();
-            //std::cout<<"Token:"<<token<<'\n';
-            if (tokenscanner.hasMoreToken()) {
-              std::cout << "Invalid\n";
-              continue;
-            }
-          }
-          //std::cout<<"OK"<<ord<<'\n';
+          // if (tokenscanner.hasMoreToken()) {
+          //   token = tokenscanner.BehindToken();
+          //   if (token[0] != '=') {
+          //     std::cout << "Invalid\n";
+          //     continue;
+          //   }
+          //   tokenscanner.AD();
+          //   token=tokenscanner.NextFollow();
+          //   if (tokenscanner.hasMoreToken()) {
+          //     std::cout << "Invalid\n";
+          //     continue;
+          //   }
+          // }
           BOOKSYSTEM.show(ord);
         } else {
           std::cout << "Invalid\n";
