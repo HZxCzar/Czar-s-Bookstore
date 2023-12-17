@@ -601,7 +601,6 @@ inline void BookSystem::show(const string &input) {
       long long beg, end;
       KEYWORDdata.FindRange(ins, beg, end);
       if (!KEYWORDdata.if_find) {
-        assert(0);
         std::cout << '\n';
       } else {
         std::set<string> u;
