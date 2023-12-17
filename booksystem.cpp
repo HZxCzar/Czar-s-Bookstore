@@ -19,40 +19,6 @@ inline BookSystem::BookSystem(const string &keyname1, const string &valuename1,
   KEYWORDdata.Set(keyname4, valuename4);
 }
 
-// inline void Book::print() const {
-//   //exit(0);
-//   for (long long i = 0; i < 20; i++) {
-//     if (ISBN[i] == '\0') {
-//       break;
-//     }
-//     std::cout << ISBN[i];
-//   }
-//   std::cout << '\t';
-//   for (long long i = 0; i < 60; i++) {
-//     if (BookName[i] == '\0') {
-//       break;
-//     }
-//     std::cout << BookName[i];
-//   }
-//   std::cout << '\t';
-//   for (long long i = 0; i < 60; i++) {
-//     if (Author[i] == '\0') {
-//       break;
-//     }
-//     std::cout << Author[i];
-//   }
-//   std::cout << '\t';
-//   for (long long i = 0; i < 60; i++) {
-//     if (Keyword[i] == '\0') {
-//       break;
-//     }
-//     std::cout << Keyword[i];
-//   }
-//   std::cout << '\t';
-//   std::cout << std::fixed << std::setprecision(2) << Price;
-//   std::cout << '\t' << Quantity << '\n';
-// }
-
 inline void Book_ISBN::print() const {
   // exit(0);
   for (long long i = 0; i < 20; i++) {

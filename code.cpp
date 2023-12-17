@@ -155,19 +155,19 @@ int main() {
         }
       } else {
         if (ACCOUNTSYSTEM.GetPriv() >= 1) {
-          // if (tokenscanner.hasMoreToken()) {
-          //   token = tokenscanner.BehindToken();
-          //   if (token[0] != '=') {
-          //     std::cout << "Invalid\n";
-          //     continue;
-          //   }
-          //   tokenscanner.AD();
-          //   token=tokenscanner.NextFollow();
-          //   if (tokenscanner.hasMoreToken()) {
-          //     std::cout << "Invalid\n";
-          //     continue;
-          //   }
-          // }
+          if (tokenscanner.hasMoreToken()) {
+            token = tokenscanner.BehindToken();
+            if (token[0] != '=') {
+              std::cout << "Invalid\n";
+              continue;
+            }
+            tokenscanner.AD();
+            token=tokenscanner.NextFollow();
+            if (tokenscanner.hasMoreToken()) {
+              std::cout << "Invalid\n";
+              continue;
+            }
+          }
           BOOKSYSTEM.show(ord);
         } else {
           std::cout << "Invalid\n";
