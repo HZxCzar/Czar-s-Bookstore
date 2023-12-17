@@ -16,18 +16,18 @@
 #include <cassert>
 
 int main() {
-  // std::remove(ACCOUNTKEY.c_str());
-  // std::remove(ACCOUNTVAL.c_str());
-  // std::remove(ISBNKEY.c_str());
-  // std::remove(ISBNVAL.c_str());
-  // std::remove(NAMEKEY.c_str());
-  // std::remove(NAMEVAL.c_str());
-  // std::remove(AUTHORKEY.c_str());
-  // std::remove(AUTHORVAL.c_str());
-  // std::remove(KEYWORDKEY.c_str());
-  // std::remove(KEYWORDVAL.c_str());
-  // std::remove(LOGKEY.c_str());
-  // std::remove(LOGVAL.c_str());
+  std::remove(ACCOUNTKEY.c_str());
+  std::remove(ACCOUNTVAL.c_str());
+  std::remove(ISBNKEY.c_str());
+  std::remove(ISBNVAL.c_str());
+  std::remove(NAMEKEY.c_str());
+  std::remove(NAMEVAL.c_str());
+  std::remove(AUTHORKEY.c_str());
+  std::remove(AUTHORVAL.c_str());
+  std::remove(KEYWORDKEY.c_str());
+  std::remove(KEYWORDVAL.c_str());
+  std::remove(LOGKEY.c_str());
+  std::remove(LOGVAL.c_str());
   string s;
   accountsystem ACCOUNTSYSTEM;
   BookSystem BOOKSYSTEM;
@@ -142,6 +142,7 @@ int main() {
       ord = tokenscanner.BehindToken();
       token = tokenscanner.NextTokenNIC();
       if (token == "finance") {
+        assert(0);
         ord = tokenscanner.BehindToken();
         if (ACCOUNTSYSTEM.GetPriv() >= 7) {
           tokenscanner.NextToken();
@@ -208,7 +209,6 @@ int main() {
       }
     } else if (token == "modify") {
       if (ACCOUNTSYSTEM.GetPriv() >= 3) {
-        assert(0);
         if (ACCOUNTSYSTEM.IFSELECT()) {
           ord = tokenscanner.BehindToken();
           ISBN = ACCOUNTSYSTEM.GETSELECT();
