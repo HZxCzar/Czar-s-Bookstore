@@ -177,7 +177,6 @@ int main() {
         }
       }
     } else if (token == "buy") {
-      assert(0);
       if (ACCOUNTSYSTEM.GetPriv() >= 1) {
         ord = tokenscanner.BehindToken();
         tokenscanner.NextToken();

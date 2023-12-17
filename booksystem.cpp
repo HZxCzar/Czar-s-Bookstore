@@ -2,6 +2,7 @@
 #include "Logsystem.hpp"
 #include "Tool.hpp"
 #include "database.hpp"
+#include <cassert>
 #include <cstddef>
 #include <cstring>
 #include <iomanip>
@@ -427,6 +428,7 @@ inline void BookSystem::show(const string &input) {
   //  tes.elem[0].print();
   if (!tokenscanner.hasMoreToken()) {
     // std::cout<<"HERE";
+    assert(0);
     ISBNdata.PRINT();
     // std::cout << '\n';
   } else {
