@@ -142,7 +142,6 @@ int main() {
       ord = tokenscanner.BehindToken();
       token = tokenscanner.NextTokenNIC();
       if (token == "finance") {
-        assert(0);
         ord = tokenscanner.BehindToken();
         if (ACCOUNTSYSTEM.GetPriv() >= 7) {
           tokenscanner.NextToken();
@@ -227,6 +226,7 @@ int main() {
         std::cout << "Invalid\n";
       }
     } else if (token == "import") {
+      assert(0);
       if (ACCOUNTSYSTEM.GetPriv() >= 3) {
         if (ACCOUNTSYSTEM.IFSELECT()) {
           ord = tokenscanner.BehindToken();
