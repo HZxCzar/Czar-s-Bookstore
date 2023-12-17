@@ -283,6 +283,7 @@ inline void accountsystem::useradd(const string &input) {
     return;
   }
   token = tokenScanner.NextToken();
+  //std::cout<<"Token:"<<token<<'\n';
   tmpck.SetInput(token);
   if (!tmpck.ISUSERNAME()) {
     std::cout << "Invalid\n";

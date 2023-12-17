@@ -43,8 +43,7 @@ inline string TokenScanner::NextISBN() {
     pos++;
   }
   int n1 = pos;
-  while (pos < len && line[pos] != ' ' && line[pos] != '\n' &&
-         line[pos] != '\0' && line[pos] != '\r') {
+  while (pos < len && line[pos] != ' ') {
     pos++;
   }
   return line.substr(n1, pos - n1);
@@ -52,26 +51,22 @@ inline string TokenScanner::NextISBN() {
 
 inline string TokenScanner::NextTokenNIC()
 {
-  while (pos < len && (line[pos] == '\r' || line[pos] == ' ' ||
-                       line[pos] == '\n' || line[pos] == '\0')) {
+  while (pos < len && (line[pos] == ' ')) {
     pos++;
   }
   int n1 = pos;
-  while (pos < len && line[pos] != ' ' && line[pos] != '\n' &&
-         line[pos] != '\0' && line[pos] != '\r' && line[pos] != '=') {
+  while (pos < len && line[pos] != ' '&& line[pos] != '=') {
     pos++;
   }
   return line.substr(n1, pos - n1);
 }
 
 inline string TokenScanner::NextToken() {
-  while (pos < len && (line[pos] == '\r' || line[pos] == ' ' ||
-                       line[pos] == '\n' || line[pos] == '\0')) {
+  while (pos < len && (line[pos] == ' ')) {
     pos++;
   }
   int n1 = pos;
-  while (pos < len && line[pos] != ' ' && line[pos] != '\n' &&
-         line[pos] != '\0' && line[pos] != '\r') {
+  while (pos < len && line[pos] != ' ') {
     pos++;
   }
   return line.substr(n1, pos - n1);
@@ -154,6 +149,7 @@ inline bool TokenScanner::ISUSERNAME() {
     return false;
   }
   long long p1 = pos;
+  //std::cout<<"HERE\n";
   while (pos < len) {
     if (pos - p1 >= 30) {
       judge = false;
@@ -207,6 +203,7 @@ inline bool TokenScanner::ISISBN() {
       judge = false;
     }
     if (line[pos] < 32 || line[pos] > 126) {
+      //std::cout<<"THIS:"<<line[pos]<<'\n';
       judge = false;
     }
     if (line[pos] == ' ') {

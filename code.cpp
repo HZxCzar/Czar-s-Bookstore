@@ -56,8 +56,8 @@ int main() {
     if (token == "su") {
       if (ACCOUNTSYSTEM.GetPriv() >= 0) {
         ord = tokenscanner.BehindToken();
-        tokenscanner.NextKeyword();
-        tokenscanner.NextKeyword();
+        tokenscanner.NextToken();
+        tokenscanner.NextToken();
         if (tokenscanner.hasMoreToken()) {
           std::cout << "Invalid\n";
           continue;
@@ -79,9 +79,9 @@ int main() {
     } else if (token == "register") {
       if (ACCOUNTSYSTEM.GetPriv() >= 0) {
         ord = tokenscanner.BehindToken();
-        tokenscanner.NextKeyword();
-        tokenscanner.NextKeyword();
-        tokenscanner.NextKeyword();
+        tokenscanner.NextToken();
+        tokenscanner.NextToken();
+        tokenscanner.NextToken();
         if (tokenscanner.hasMoreToken()) {
           std::cout << "Invalid\n";
           continue;
@@ -93,9 +93,9 @@ int main() {
     } else if (token == "passwd") {
       if (ACCOUNTSYSTEM.GetPriv() >= 1) {
         ord = tokenscanner.BehindToken();
-        tokenscanner.NextKeyword();
-        tokenscanner.NextKeyword();
-        tokenscanner.NextKeyword();
+        tokenscanner.NextToken();
+        tokenscanner.NextToken();
+        tokenscanner.NextToken();
         if (tokenscanner.hasMoreToken()) {
           std::cout << "Invalid\n";
           continue;
@@ -107,12 +107,12 @@ int main() {
     } else if (token == "useradd") {
       if (ACCOUNTSYSTEM.GetPriv() >= 3) {
         ord = tokenscanner.BehindToken();
-        tokenscanner.NextKeyword();
-        tokenscanner.NextKeyword();
-        tokenscanner.NextKeyword();
-        tokenscanner.NextKeyword();
+        tokenscanner.NextToken();
+        tokenscanner.NextToken();
+        tokenscanner.NextToken();
+        tokenscanner.NextToken();
         if (tokenscanner.hasMoreToken()) {
-          std::cout << "Invalid\n";
+          std::cout << "?Invalid\n";
           continue;
         }
         ACCOUNTSYSTEM.useradd(ord);
@@ -122,7 +122,7 @@ int main() {
     } else if (token == "delete") {
       if (ACCOUNTSYSTEM.GetPriv() >= 7) {
         ord = tokenscanner.BehindToken();
-        tokenscanner.NextKeyword();
+        tokenscanner.NextToken();
         if (tokenscanner.hasMoreToken()) {
           std::cout << "Invalid\n";
           continue;
@@ -137,7 +137,7 @@ int main() {
       if (token == "finance") {
         ord = tokenscanner.BehindToken();
         if (ACCOUNTSYSTEM.GetPriv() >= 7) {
-          tokenscanner.NextKeyword();
+          tokenscanner.NextToken();
           if (tokenscanner.hasMoreToken()) {
             std::cout << "Invalid\n";
             continue;
@@ -157,6 +157,7 @@ int main() {
             }
             tokenscanner.AD();
             token=tokenscanner.NextToken();
+            //std::cout<<"Token:"<<token<<'\n';
             if (tokenscanner.hasMoreToken()) {
               std::cout << "Invalid\n";
               continue;
@@ -203,6 +204,7 @@ int main() {
         if (ACCOUNTSYSTEM.IFSELECT()) {
           ord = tokenscanner.BehindToken();
           ISBN = ACCOUNTSYSTEM.GETSELECT();
+          //std::cout<<"HERE\n";
           BOOKSYSTEM.Modify(ISBN, ord, s);
           //std::cout<<"NEW SELECT"<<ISBN<<'\n';
           if (s) {

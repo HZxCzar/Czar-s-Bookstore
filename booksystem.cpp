@@ -443,7 +443,8 @@ inline void BookSystem::show(const string &input) {
         return;
       }
       tokenscanner.AD();
-      token = tokenscanner.NextISBN();
+      token = tokenscanner.NextToken();
+      //std::cout<<"token::"<<token<<'\n';
       tmpck.SetInput(token);
       if (!tmpck.ISISBN()) {
         std::cout << "Invalid\n";
@@ -681,6 +682,11 @@ inline void BookSystem::Buy(const string &input) {
   }
   Book_ISBN tag = ISBNdata.Get(p, pos);
   long double pay = tag.Price * Quant * 1.00;
+  if(Quant>2147483647)
+  {
+    std::cout << "Invalid\n";
+    return;
+  }
   if (tag.Quantity < Quant || Quant <= 0) {
     std::cout << "Invalid\n";
     return;
@@ -890,6 +896,11 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, bool &s) {
         return;
       }
       token.pop_back();
+      if(token[0]=='|' || token[token.size()-1]=='|')
+      {
+        std::cout << "Invalid\n";
+        return;
+      }
       tmpck.SetInput(token);
       if (!tmpck.ISKEYWORD()) {
         std::cout << "Invalid\n";
@@ -1022,6 +1033,11 @@ inline void BookSystem::Import(const string &_ISBN, const string &input) {
   // std::cout<<token<<'\n';
   size_t Quant = tokenscanner.StringToSizeT(token);
   if (Quant == 0) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  if(Quant>2147483647)
+  {
     std::cout << "Invalid\n";
     return;
   }
