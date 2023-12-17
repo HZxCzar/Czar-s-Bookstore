@@ -6,6 +6,7 @@
 #include <cstring>
 #include <iomanip>
 #include <set>
+#include <string>
 inline BookSystem::BookSystem(const string &keyname1, const string &valuename1,
                               const string &keyname2, const string &valuename2,
                               const string &keyname3, const string &valuename3,
@@ -443,7 +444,7 @@ inline void BookSystem::show(const string &input) {
         return;
       }
       tokenscanner.AD();
-      token = tokenscanner.NextToken();
+      token = tokenscanner.NextFollow();
       //std::cout<<"token::"<<token<<'\n';
       tmpck.SetInput(token);
       if (!tmpck.ISISBN()) {
@@ -481,7 +482,7 @@ inline void BookSystem::show(const string &input) {
         return;
       }
       tokenscanner.AD();tokenscanner.AD();
-      token = tokenscanner.NextToken();
+      token = tokenscanner.NextFollow();
       if(token[token.size()-1]!='"')
       {
         std::cout << "Invalid\n";
@@ -533,7 +534,7 @@ inline void BookSystem::show(const string &input) {
         return;
       }
       tokenscanner.AD();tokenscanner.AD();
-      token = tokenscanner.NextToken();
+      token = tokenscanner.NextFollow();
       if(token[token.size()-1]!='"')
       {
         std::cout << "Invalid\n";
@@ -585,7 +586,7 @@ inline void BookSystem::show(const string &input) {
         return;
       }
       tokenscanner.AD();tokenscanner.AD();
-      token = tokenscanner.NextToken();
+      token = tokenscanner.NextFollow();
       if(token[token.size()-1]!='"')
       {
         std::cout << "Invalid\n";
@@ -647,7 +648,7 @@ inline void BookSystem::Buy(const string &input) {
     std::cout << "Invalid\n";
     return;
   }
-  token = tokenscanner.NextISBN();
+  token = tokenscanner.NextToken();
   tmpck.SetInput(token);
   if (!tmpck.ISISBN()) {
     std::cout << "Invalid\n";
@@ -741,15 +742,17 @@ inline void BookSystem::Select(const string &input) {
   }
 }
 
-inline void BookSystem::Modify(string &_ISBN, const string &input, bool &s) {
-  s = false;
+inline void BookSystem::Modify(string &_ISBN, const string &input,string &s) {
+  s.clear();
   if (_ISBN.empty()) {
     std::cout << "Invalid\n";
     return;
   }
   Book basis;
   Book after;
+  //std::cout<<_ISBN<<'\n';
   Turn20(basis.ISBN, _ISBN);
+  //std::cout<<"check:"<<basis.ISBN[0]<<basis.ISBN[1];
   Book_ISBN stream(basis);
   long long p, pos;
   ISBNdata.Find(stream, p, pos);
@@ -773,6 +776,7 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, bool &s) {
   bool IS = false, NA = false, AU = false, KW = false, PR = false;
   while (tokenscanner.hasMoreToken()) {
     token = tokenscanner.NextTokenNIC();
+    //std::cout<<"check:"<<basis.ISBN[0]<<basis.ISBN[1];
     //std::cout<<"token:"<<token<<'\n';
     if (!tokenscanner.hasMoreToken()) {
       std::cout << "Invalid\n";
@@ -790,7 +794,7 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, bool &s) {
         return;
       }
       tokenscanner.AD();
-      token = tokenscanner.NextISBN();
+      token = tokenscanner.NextFollow();
       tmpck.SetInput(token);
       if (!tmpck.ISISBN()) {
         std::cout << "Invalid\n";
@@ -808,6 +812,7 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, bool &s) {
       }
       if (memcmp(after.ISBN, check, 20)) {
         Turn20(after.ISBN, token);
+        //std::cout<<"check:"<<basis.ISBN[0]<<basis.ISBN[1];
       } else {
         std::cout << "Invalid\n";
         return;
@@ -829,7 +834,7 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, bool &s) {
         return;
       }
       tokenscanner.AD();tokenscanner.AD();
-      token = tokenscanner.NextToken();
+      token = tokenscanner.NextFollow();
       if(token[token.size()-1]!='"')
       {
         std::cout << "Invalid\n";
@@ -859,7 +864,7 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, bool &s) {
         return;
       }
       tokenscanner.AD();tokenscanner.AD();
-      token = tokenscanner.NextToken();
+      token = tokenscanner.NextFollow();
       if(token[token.size()-1]!='"')
       {
         std::cout << "Invalid\n";
@@ -889,7 +894,7 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, bool &s) {
         return;
       }
       tokenscanner.AD();tokenscanner.AD();
-      token = tokenscanner.NextToken();
+      token = tokenscanner.NextFollow();
       if(token[token.size()-1]!='"')
       {
         std::cout << "Invalid\n";
@@ -931,7 +936,7 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, bool &s) {
         return;
       }
       tokenscanner.AD();
-      token = tokenscanner.NextToken();
+      token = tokenscanner.NextFollow();
       tmpck.SetInput(token);
       if(!tmpck.ISPRICE())
       {
@@ -946,12 +951,20 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, bool &s) {
     return;
     }
   }
+  for(int i=0;i<20;i++)
+  {
+    if(after.ISBN[i]=='\0')
+    {
+      break;
+    }
+    s+=after.ISBN[i];
+  }
   // std::cout<<"1\n";
-  Book_ISBN insI(basis);
+  Book_ISBN insI(basis);//insI.print();
   Book_ISBN aftI(after);
   ISBNdata.DELETE(insI);
   // std::cout<<"AFT:";
-  // aftI.print();insI.print();
+  //aftI.print();
   ISBNdata.ADD(aftI);
 
   Book_NAME insN(basis);
@@ -991,7 +1004,6 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, bool &s) {
       // aftK.PRINT();
     }
   }
-  s = true;
 }
 
 inline void BookSystem::Import(const string &_ISBN, const string &input) {

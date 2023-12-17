@@ -27,7 +27,7 @@ int main() {
   // std::remove(KEYWORDVAL.c_str());
   // std::remove(LOGKEY.c_str());
   // std::remove(LOGVAL.c_str());
-  bool s = false;
+  string s;
   accountsystem ACCOUNTSYSTEM;
   BookSystem BOOKSYSTEM;
   Logsystem LOGSYSTEM;
@@ -172,7 +172,7 @@ int main() {
     } else if (token == "buy") {
       if (ACCOUNTSYSTEM.GetPriv() >= 1) {
         ord = tokenscanner.BehindToken();
-        tokenscanner.NextISBN();
+        tokenscanner.NextToken();
         tokenscanner.NextTokenNIC();
         if (tokenscanner.hasMoreToken()) { // hasMore如何界定“”
           std::cout << "Invalid\n";
@@ -207,8 +207,10 @@ int main() {
           //std::cout<<"HERE\n";
           BOOKSYSTEM.Modify(ISBN, ord, s);
           //std::cout<<"NEW SELECT"<<ISBN<<'\n';
-          if (s) {
-            ACCOUNTSYSTEM.SelectBook(ISBN);
+          if (!s.empty()) {
+            //std::cout<<"IN\n";
+            //std::cout<<s<<"<<\n";
+            ACCOUNTSYSTEM.SelectBook(s);
           }
         } else {
           std::cout << "Invalid\n";

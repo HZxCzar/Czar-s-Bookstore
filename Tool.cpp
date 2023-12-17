@@ -49,13 +49,12 @@ inline string TokenScanner::NextISBN() {
   return line.substr(n1, pos - n1);
 }
 
-inline string TokenScanner::NextTokenNIC()
-{
+inline string TokenScanner::NextTokenNIC() {
   while (pos < len && (line[pos] == ' ')) {
     pos++;
   }
   int n1 = pos;
-  while (pos < len && line[pos] != ' '&& line[pos] != '=') {
+  while (pos < len && line[pos] != ' ' && line[pos] != '=') {
     pos++;
   }
   return line.substr(n1, pos - n1);
@@ -73,14 +72,19 @@ inline string TokenScanner::NextToken() {
 }
 
 inline string TokenScanner::NextKeyword() {
-  while (pos < len &&
-         (line[pos] == '\r' || line[pos] == ' ' || line[pos] == '\n' ||
-          line[pos] == '\0' || line[pos] == '|')) {
+  while (pos < len && (line[pos] == '|')) {
     pos++;
   }
   int n1 = pos;
-  while (pos < len && line[pos] != '|' && line[pos] != '\n' &&
-         line[pos] != '\0' && line[pos] != ' ' && line[pos] != '\r') {
+  while (pos < len && line[pos] != '|' && line[pos] != ' ') {
+    pos++;
+  }
+  return line.substr(n1, pos - n1);
+}
+
+inline string TokenScanner::NextFollow() {
+  int n1 = pos;
+  while (pos < len && line[pos] != ' ') {
     pos++;
   }
   return line.substr(n1, pos - n1);
@@ -149,7 +153,7 @@ inline bool TokenScanner::ISUSERNAME() {
     return false;
   }
   long long p1 = pos;
-  //std::cout<<"HERE\n";
+  // std::cout<<"HERE\n";
   while (pos < len) {
     if (pos - p1 >= 30) {
       judge = false;
@@ -203,7 +207,7 @@ inline bool TokenScanner::ISISBN() {
       judge = false;
     }
     if (line[pos] < 32 || line[pos] > 126) {
-      //std::cout<<"THIS:"<<line[pos]<<'\n';
+      // std::cout<<"THIS:"<<line[pos]<<'\n';
       judge = false;
     }
     if (line[pos] == ' ') {
@@ -288,10 +292,8 @@ inline bool TokenScanner::ISPRICE() {
     if (line[pos] == '.') {
       if (p2 != 0) {
         judge = false;
-      }
-      else
-      {
-        p2=pos;
+      } else {
+        p2 = pos;
       }
     }
     if (line[pos] == ' ') {
@@ -305,8 +307,7 @@ inline bool TokenScanner::ISPRICE() {
   return judge;
 }
 
-inline bool TokenScanner::ISKEYWORD()
-{
+inline bool TokenScanner::ISKEYWORD() {
   bool judge = true;
   while (pos < len && (line[pos] == ' ')) {
     pos++;
@@ -315,7 +316,7 @@ inline bool TokenScanner::ISKEYWORD()
     return false;
   }
   long long p1 = pos;
-  bool listlen=false;
+  bool listlen = false;
   while (pos < len) {
     if (pos - p1 >= 60) {
       judge = false;
@@ -326,17 +327,14 @@ inline bool TokenScanner::ISKEYWORD()
     if (line[pos] == '"') {
       judge = false;
     }
-    if(line[pos]=='|'&&listlen==true)
-    {
-      judge=false;
+    if (line[pos] == '|' && listlen == true) {
+      judge = false;
     }
-    if(line[pos]=='|')
-    {
-      listlen=true;
+    if (line[pos] == '|') {
+      listlen = true;
     }
-    if(line[pos]!='|')
-    {
-      listlen=false;
+    if (line[pos] != '|') {
+      listlen = false;
     }
     if (line[pos] == ' ') {
       return judge;

@@ -4,6 +4,7 @@
 #include "Tool.hpp"
 #include "database.hpp"
 #include <cstddef>
+#include <string>
 //基础数据结构
 struct Book {
   // Book() = default;
@@ -68,7 +69,7 @@ public:
   void show(const string &);
   void Buy(const string &);
   void Select(const string &);
-  void Modify(string &_ISBN, const string &input, bool &s);
+  void Modify(string &_ISBN, const string &input, string &s);
   void Import(const string &_ISBN, const string &input);
   // void CLOSE(){ISBNdata.CL();NAMEdata.CL();AUTHORdata.CL();KEYWORDdata.CL();}
 private:
