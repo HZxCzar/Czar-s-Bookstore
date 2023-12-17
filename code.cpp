@@ -63,7 +63,6 @@ int main() {
     token = tokenscanner.NextToken();
     if (token == "su") {
       if (ACCOUNTSYSTEM.GetPriv() >= 0) {
-        assert(0);
         ord = tokenscanner.BehindToken();
         tokenscanner.NextToken();
         tokenscanner.NextToken();
@@ -115,6 +114,7 @@ int main() {
       }
     } else if (token == "useradd") {
       if (ACCOUNTSYSTEM.GetPriv() >= 3) {
+        assert(0);
         ord = tokenscanner.BehindToken();
         tokenscanner.NextToken();
         tokenscanner.NextToken();
