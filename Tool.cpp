@@ -206,7 +206,6 @@ inline bool TokenScanner::ISISBN() {
       judge = false;
     }
     if (line[pos] < 32 || line[pos] > 126) {
-      // std::cout<<"THIS:"<<line[pos]<<'\n';
       judge = false;
     }
     if (line[pos] == ' ') {
