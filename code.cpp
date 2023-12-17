@@ -177,6 +177,7 @@ int main() {
         }
       }
     } else if (token == "buy") {
+      assert(0);
       if (ACCOUNTSYSTEM.GetPriv() >= 1) {
         ord = tokenscanner.BehindToken();
         tokenscanner.NextToken();
@@ -190,7 +191,6 @@ int main() {
         std::cout << "Invalid\n";
       }
     } else if (token == "select") {
-      assert(0);
       if (ACCOUNTSYSTEM.GetPriv() >= 3) {
         ord = tokenscanner.NextISBN();
         tmpck.SetInput(ord);
