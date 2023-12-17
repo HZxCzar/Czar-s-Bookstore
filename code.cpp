@@ -113,7 +113,6 @@ int main() {
       }
     } else if (token == "useradd") {
       if (ACCOUNTSYSTEM.GetPriv() >= 3) {
-        assert(0);
         ord = tokenscanner.BehindToken();
         tokenscanner.NextToken();
         tokenscanner.NextToken();
@@ -140,6 +139,7 @@ int main() {
         std::cout << "Invalid\n";
       }
     } else if (token == "show") {
+      assert(0);
       ord = tokenscanner.BehindToken();
       token = tokenscanner.NextTokenNIC();
       if (token == "finance") {
