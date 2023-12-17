@@ -428,7 +428,6 @@ inline void BookSystem::show(const string &input) {
   //  tes.elem[0].print();
   if (!tokenscanner.hasMoreToken()) {
     // std::cout<<"HERE";
-    assert(0);
     ISBNdata.PRINT();
     // std::cout << '\n';
   } else {
@@ -436,6 +435,7 @@ inline void BookSystem::show(const string &input) {
     token = tokenscanner.NextTokenNIC();
     //std::cout<<token<<'\n';
     if (token == "-ISBN") {
+      assert(0);
       if (!tokenscanner.hasMoreToken()) {
         std::cout << "Invalid\n";
         return;
