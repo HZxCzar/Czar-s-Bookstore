@@ -279,7 +279,8 @@ inline bool TokenScanner::ISPRICE() {
   }
   long long p1 = pos;
   long long p2 = 0;
-  if (pos + 1 < len && line[pos] == '.') {
+  //std::cout<<":"<<line[pos]<<'\n';
+  if (pos < len && line[pos] == '.') {
     judge = false;
   }
   while (pos < len) {
