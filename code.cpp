@@ -190,6 +190,7 @@ int main() {
         std::cout << "Invalid\n";
       }
     } else if (token == "select") {
+      assert(0);
       if (ACCOUNTSYSTEM.GetPriv() >= 3) {
         ord = tokenscanner.NextISBN();
         tmpck.SetInput(ord);
@@ -208,7 +209,6 @@ int main() {
       }
     } else if (token == "modify") {
       if (ACCOUNTSYSTEM.GetPriv() >= 3) {
-        assert(0);
         if (ACCOUNTSYSTEM.IFSELECT()) {
           ord = tokenscanner.BehindToken();
           ISBN = ACCOUNTSYSTEM.GETSELECT();
