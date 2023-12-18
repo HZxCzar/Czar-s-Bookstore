@@ -452,7 +452,8 @@ inline void BookSystem::show(const string &input) {
       long long beg, end;
       NAMEdata.FindRange(ins, beg, end);
       if (!NAMEdata.if_find) {
-        std::cout << "Invalid\n";
+        std::cout <<"\n";
+        return;
       } else {
         long long ind = beg;
         bool out = false;

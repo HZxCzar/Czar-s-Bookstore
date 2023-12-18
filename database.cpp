@@ -162,7 +162,6 @@ void database<data>::FindRange(const data &targ, long long &beg,
     beg = 0;
     end = 0;
   } else {
-    if_find = true;
     A<data> stream;
     //PRINT();
     long long p = sizeof(long long), lastp = p;
@@ -176,6 +175,7 @@ void database<data>::FindRange(const data &targ, long long &beg,
     p = stream.next;
     if (p == -1) {
       end = -1;
+      if_find = true;
       return;
     }
     Afile.readA(stream, p);
@@ -184,11 +184,13 @@ void database<data>::FindRange(const data &targ, long long &beg,
       p = stream.next;
       if (p == -1) {
         end = -1;
+        if_find = true;
         return;
       }
       Afile.readA(stream, p); 
     }
     end = p;
+    if_find = true;
   }
 }
 
