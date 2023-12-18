@@ -185,7 +185,7 @@ inline bool Book_NAME::operator<(const Book &rhs) const {
       return false;
     }
   }
-  if (rhs.ISBN[0] == '\0' || rhs.ISBN[0] == ' ') {
+  if (rhs.ISBN[0] == '\0') {
     return false;
   }
   for (long long i = 0; i < 20; i++) {
@@ -206,7 +206,7 @@ inline bool Book_NAME::operator>(const Book &rhs) const {
       return false;
     }
   }
-  if (rhs.ISBN[0] == '\0' || rhs.ISBN[0] == ' ') {
+  if (rhs.ISBN[0] == '\0') {
     return false;
   }
   for (long long i = 0; i < 20; i++) {
@@ -236,7 +236,7 @@ inline bool Book_AUTHOR::operator<(const Book &rhs) const {
       return false;
     }
   }
-  if (rhs.ISBN[0] == '\0' || rhs.ISBN[0] == ' ') {
+  if (rhs.ISBN[0] == '\0') {
     return false;
   }
   for (long long i = 0; i < 20; i++) {
@@ -257,7 +257,7 @@ inline bool Book_AUTHOR::operator>(const Book &rhs) const {
       return false;
     }
   }
-  if (rhs.ISBN[0] == '\0' || rhs.ISBN[0] == ' ') {
+  if (rhs.ISBN[0] == '\0') {
     return false;
   }
   for (long long i = 0; i < 20; i++) {
@@ -281,34 +281,13 @@ inline bool Book_AUTHOR::operator==(const Book &rhs) const {
 
 inline bool Book_KEYWORD::operator<(const Book &rhs) const {
   for (long long i = 0; i < 60; i++) {
-    if (Keyword[i] > rhs.Keyword[i]) {
-      return true;
-    } else if (Keyword[i] < rhs.Keyword[i]) {
-      return false;
-    }
-  }
-  if (rhs.ISBN[0] == '\0' || rhs.ISBN[0] == ' ') {
-    return false;
-  }
-  for (long long i = 0; i < 20; i++) {
-    if (ISBN[i] > rhs.ISBN[i]) {
-      return true;
-    } else if (ISBN[i] < rhs.ISBN[i]) {
-      return false;
-    }
-  }
-  return false;
-}
-
-inline bool Book_KEYWORD::operator>(const Book &rhs) const {
-  for (long long i = 0; i < 60; i++) {
     if (Keyword[i] < rhs.Keyword[i]) {
       return true;
     } else if (Keyword[i] > rhs.Keyword[i]) {
       return false;
     }
   }
-  if (rhs.ISBN[0] == '\0' || rhs.ISBN[0] == ' ') {
+  if (rhs.ISBN[0] == '\0') {
     return false;
   }
   for (long long i = 0; i < 20; i++) {
@@ -321,9 +300,30 @@ inline bool Book_KEYWORD::operator>(const Book &rhs) const {
   return false;
 }
 
+inline bool Book_KEYWORD::operator>(const Book &rhs) const {
+  for (long long i = 0; i < 60; i++) {
+    if (Keyword[i] > rhs.Keyword[i]) {
+      return true;
+    } else if (Keyword[i] < rhs.Keyword[i]) {
+      return false;
+    }
+  }
+  if (rhs.ISBN[0] == '\0') {
+    return false;
+  }
+  for (long long i = 0; i < 20; i++) {
+    if (ISBN[i] > rhs.ISBN[i]) {
+      return true;
+    } else if (ISBN[i] < rhs.ISBN[i]) {
+      return false;
+    }
+  }
+  return false;
+}
+
 inline bool Book_KEYWORD::operator==(const Book &rhs) const {
   for (long long i = 0; i < 60; i++) {
-    if (Keyword[i] != rhs.Keyword[i]) {
+    if (Keyword[i] != rhs.Keyword[i]) {//std::cout<<"keyword:"<<Keyword[i]<<"|RHS:"<<rhs.Keyword[i]<<'\n';
       return false;
     }
   }
@@ -383,6 +383,7 @@ inline void BookSystem::show(const string &input) {
   tokenscanner.SetInput(input);
   if (!tokenscanner.hasMoreToken()) {
     ISBNdata.PRINT();
+    return;
   } else {
     string token;
     token = tokenscanner.NextTokenNIC();
@@ -415,6 +416,7 @@ inline void BookSystem::show(const string &input) {
           ISBNdata.PRINT(p, p, pos, pos + 1);
         } else {
           std::cout << '\n';
+          return;
         }
       }
     } else if (token == "-name") {
@@ -452,21 +454,24 @@ inline void BookSystem::show(const string &input) {
       if (!NAMEdata.if_find) {
         std::cout << "Invalid\n";
       } else {
-        // std::cout<<"IN\n"<<beg<<" "<<end<<'\n';
         long long ind = beg;
         bool out = false;
         while (ind != end) {
           long long start = NAMEdata.GetBound(ins, ind);
           long long tail = NAMEdata.GetUp(ins, ind);
-          // std::cout<<"start:"<<start<<" tail:"<<tail<<'\n';
           if (NAMEdata.if_find) {
             out = true;
+            if(start>tail)
+            {
+              std::cout<<"Wrong\n";
+            }
             NAMEdata.PRINT(ind, ind, start, tail + 1);
           }
           ind = NAMEdata.GO(ind);
         }
         if (!out) {
           std::cout << '\n';
+          return;
         }
       }
     } else if (token == "-author") {
@@ -503,6 +508,7 @@ inline void BookSystem::show(const string &input) {
       AUTHORdata.FindRange(ins, beg, end);
       if (!AUTHORdata.if_find) {
         std::cout << '\n';
+        return;
       } else {
         // std::cout<<"IN\n"<<beg<<" "<<end<<'\n';
         long long ind = beg;
@@ -519,9 +525,11 @@ inline void BookSystem::show(const string &input) {
         }
         if (!out) {
           std::cout << '\n';
+          return;
         }
       }
     } else if (token == "-keyword") {
+      //std::cout<<"IN1\n";
       if (!tokenscanner.hasMoreToken()) {
         std::cout << "Invalid\n";
         return;
@@ -551,10 +559,14 @@ inline void BookSystem::show(const string &input) {
       Book_KEYWORD ins;
       Turn60(ins.Keyword, token);
       long long beg, end;
+      //std::cout<<"IN2\n";
       KEYWORDdata.FindRange(ins, beg, end);
+      //std::cout<<"OK?\n";
       if (!KEYWORDdata.if_find) {
         std::cout << '\n';
+        return;
       } else {
+        //std::cout<<"IN3\n";
         std::set<string> u;
         long long ind = beg;
         bool out = false;
@@ -569,6 +581,7 @@ inline void BookSystem::show(const string &input) {
         }
         if (!out) {
           std::cout << '\n';
+          return;
         } else {
           auto it = u.begin();
           while (it != u.end()) {

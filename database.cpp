@@ -7,10 +7,10 @@ void database<data>::Set(const string &Aname, const string &Bname) {
   Afile.Setfile(Aname);
   Bfile.Setfile(Bname);
   empt = false;
-  //std::cout<<"INIT";
+  // std::cout<<"INIT";
   if (Afile.IS_NEW()) {
     empt = true;
-    //std::cout << "INI\n";
+    // std::cout << "INI\n";
     Afile.initialise();
     // }
     // if (Bfile.IS_NEW()) {
@@ -45,6 +45,10 @@ void database<data>::BREAK(const long long &p, B<data> &V) {
 template <class data>
 long long database<data>::BinarySearch(const B<data> &block, const data &targ) {
   long long l = 0, r = block.size - 1, mid;
+  if (block.size == 0) {
+    r = 0;
+    //std::cout << "wrong\n";
+  }
   if_find = true;
   while (l < r) {
     mid = (l + r) / 2;
@@ -78,12 +82,36 @@ bool database<data>::Scan(const A<data> &check, const data &targ) {
 }
 
 template <class data>
+bool database<data>::Scan2(const A<data> &check, const data &targ) {
+  if (check.next == -1) {
+    return false;
+  }
+  if (check.first < targ) {
+    A<data> nextKey;
+    Afile.readA(nextKey, check.next);
+    if(nextKey.first==targ)
+    {
+      return false;
+    }
+    if (nextKey.first > targ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  return false;
+}
+
+template <class data>
 long long database<data>::GetBound(const data &targ, const long long &p) {
   if_find = true;
   A<data> K;
   B<data> V;
   Afile.readA(K, p);
   Bfile.readA(V, K.pos);
+  if (V.size == 0) {
+    std::cout << "Wrong\n";
+  }
   long long l = 0, r = V.size - 1, mid;
   // std::cout<<"BOUND:"<<l<<" "<<r<<'\n';
   while (l < r) {
@@ -108,8 +136,10 @@ long long database<data>::GetUp(const data &targ, const long long &p) {
   B<data> V;
   Afile.readA(K, p);
   Bfile.readA(V, K.pos);
-  long long l = 0, r = V.size - 1, mid;
-  // std::cout<<"UP:"<<l<<" "<<r<<'\n';
+  if (V.size == 0) {
+    std::cout << "Wrong\n";
+  }
+  int l = 0, r = V.size - 1, mid;
   while (l < r) {
     mid = (l + r + 1) / 2;
     if (V.elem[mid] > targ) {
@@ -119,7 +149,6 @@ long long database<data>::GetUp(const data &targ, const long long &p) {
     }
   }
   if (!(V.elem[r] == targ)) {
-    // std::cout<<"up\n";V.elem[r].PRINT();
     if_find = false;
   }
   return r;
@@ -135,9 +164,10 @@ void database<data>::FindRange(const data &targ, long long &beg,
   } else {
     if_find = true;
     A<data> stream;
+    //PRINT();
     long long p = sizeof(long long), lastp = p;
     Afile.readA(stream, p);
-    while (Scan(stream, targ)) {
+    while (Scan2(stream, targ)) {
       lastp = p;
       p = stream.next;
       Afile.readA(stream, p);
@@ -152,7 +182,11 @@ void database<data>::FindRange(const data &targ, long long &beg,
     while (stream.first == targ) {
       lastp = p;
       p = stream.next;
-      Afile.readA(stream, p);
+      if (p == -1) {
+        end = -1;
+        return;
+      }
+      Afile.readA(stream, p); 
     }
     end = p;
   }
@@ -200,11 +234,11 @@ void database<data>::Find(const data &targ, long long &p, long long &pos) {
       pos++;
     }
     excute = false;
-    //std::cout<<"TEST:\n";
-    //targ.print();
-    //V.elem[pos].print();
+    // std::cout<<"TEST:\n";
+    // targ.print();
+    // V.elem[pos].print();
     if (!(V.elem[pos] < targ) && !(V.elem[pos] > targ)) {
-      //std::cout<<"INSIDE\n";
+      // std::cout<<"INSIDE\n";
       excute = true;
     }
   }
@@ -221,7 +255,7 @@ long long database<data>::GetInPos(const data &targ, const long long &p) {
   if (V.elem[pos] < targ) {
     pos++;
   }
-  excute=false;
+  excute = false;
   if (!(V.elem[pos] < targ) && !(V.elem[pos] > targ)) {
     excute = true;
   }
@@ -239,10 +273,10 @@ data database<data>::Get(const long long &p, const long long &pos) {
   A<data> K;
   B<data> V;
   Afile.readA(K, p);
-  //std::cout<<K.pos<<'<';
+  // std::cout<<K.pos<<'<';
   Bfile.readA(V, K.pos);
-  //std::cout<<"POS:"<<pos<<'\n';
-  //V.elem[0].print();
+  // std::cout<<"POS:"<<pos<<'\n';
+  // V.elem[0].print();
   return V.elem[pos];
 }
 
@@ -260,7 +294,7 @@ void database<data>::Update(const data &elem, const long long &p,
 template <class data> void database<data>::ADD(const data &input) {
   excute = false;
   if (empt) {
-    //std::cout<<"ADD\n";
+    // std::cout<<"ADD\n";
     empt = false;
     excute = true;
     A<data> K;
@@ -281,11 +315,14 @@ template <class data> void database<data>::ADD(const data &input) {
     FindOnly(input, p, lastp);
     A<data> K;
     B<data> V;
-    //std::cout<<"p:"<<p<<'\n';
+    // std::cout<<"p:"<<p<<'\n';
     Afile.readA(K, p);
     Bfile.readA(V, K.pos);
+    //std::cout<<"x1\n";
     long long pos = BinarySearch(V, input);
+    //std::cout<<"x2\n";
     if (if_find) {
+      //std::cout<<"right!\n";
       return;
     }
     excute = true;
@@ -372,21 +409,21 @@ inline void database<data>::PRINT(const long long &begpos,
     long long p = sizeof(long long);
     while (p != -1) {
       Afile.readA(K, p);
-      //std::cout<<"flag2";
-      //std::cout<<K.pos<<'\n';
+      // std::cout<<"flag2";
+      // std::cout<<K.pos<<'\n';
       Bfile.readA(V, K.pos);
-      //std::cout<<V.size<<" pos"<<K.pos<<'\n';
-      //std::cout<<"flag3";
-      //Book_ISBN ch=reinterpret_cast<Book_ISBN>(Get(8,0));
-      // if (typeid(V) == typeid(B<Book_ISBN>)) {
-      //   std::cout<<"TRUE\n";
-      // }
+      // std::cout<<V.size<<" pos"<<K.pos<<'\n';
+      // std::cout<<"flag3";
+      // Book_ISBN ch=reinterpret_cast<Book_ISBN>(Get(8,0));
+      //  if (typeid(V) == typeid(B<Book_ISBN>)) {
+      //    std::cout<<"TRUE\n";
+      //  }
       for (int i = 0; i < V.size; i++) {
         // std::cout<<i<<'\n';
         V.elem[i].print();
-        //ch.print();
+        // ch.print();
       }
-      //std::cout<<"flag4";exit(0);
+      // std::cout<<"flag4";exit(0);
       p = K.next;
     }
   } else if (beg == -1 && end == -1) {

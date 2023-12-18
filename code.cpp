@@ -157,17 +157,20 @@ int main() {
         if (ACCOUNTSYSTEM.GetPriv() >= 1) {
           if (tokenscanner.hasMoreToken()) {
             token = tokenscanner.BehindToken();
+            //std::cout<<"Behind:"<<token<<'\n';
             if (token[0] != '=') {
               std::cout << "Invalid\n";
               continue;
             }
             tokenscanner.AD();
             token=tokenscanner.NextFollow();
+            //std::cout<<"Follow:"<<token<<'\n';
             if (tokenscanner.hasMoreToken()) {
               std::cout << "Invalid\n";
               continue;
             }
           }
+          //std::cout<<"Ord:"<<ord<<'\n';
           BOOKSYSTEM.show(ord);
         } else {
           std::cout << "Invalid\n";

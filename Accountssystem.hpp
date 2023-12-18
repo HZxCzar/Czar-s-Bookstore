@@ -11,6 +11,7 @@ struct Account{
     long long privilege=0;
     bool operator<(const Account& rhs)const;
     bool operator>(const Account& rhs)const;
+    bool operator==(const Account &)const{return false;};
     void print()const{for(int i=0;i<30;i++){std::cout<<UserID[i];}return;}
 };
 struct login{

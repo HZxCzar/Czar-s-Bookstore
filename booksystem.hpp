@@ -5,6 +5,7 @@
 #include "database.hpp"
 #include <cstddef>
 #include <string>
+#include <type_traits>
 //基础数据结构
 struct Book {
   // Book() = default;
@@ -23,6 +24,7 @@ struct Book_ISBN : Book {
   Book_ISBN(Book &init);
   bool operator<(const Book &) const;
   bool operator>(const Book &) const;
+  bool operator==(const Book &)const{return false;};
   void print() const;
 };
 struct Book_NAME : Book {

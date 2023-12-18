@@ -346,7 +346,7 @@ inline bool TokenScanner::ISKEYWORD() {
     return false;
   }
   long long p1 = pos;
-  bool listlen = false;
+  bool listlen = true;
   while (pos < len) {
     if (pos - p1 >= 60) {
       judge = false;
@@ -367,6 +367,10 @@ inline bool TokenScanner::ISKEYWORD() {
       listlen = false;
     }
     if (line[pos] == ' ') {
+      if(line[pos-1]=='|')
+      {
+        judge=false;
+      }
       return judge;
     }
     pos++;

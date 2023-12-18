@@ -3,7 +3,7 @@
 #include "FileWriting.hpp"
 #include <set>
 #include <string>
-constexpr int BLOCKSIZE =2500;
+constexpr int BLOCKSIZE =600;
 const string ACCOUNTKEY = "ACCOUNTKEY", ACCOUNTVAL = "ACCOUNTVAL",
              ISBNKEY = "ISBNKEY", ISBNVAL = "ISBNVAL", NAMEKEY = "NAMEKEY",
              NAMEVAL = "NAMEVAL", AUTHORKEY = "AUTHORKEY",
@@ -28,6 +28,7 @@ public:
   long long BinarySearch(const B<data> &, const data &);
   //判断位置
   bool Scan(const A<data> &, const data &);
+  bool Scan2(const A<data> &, const data &);
   //寻找块区间,end取不到
   void FindRange(const data &, long long &beg, long long &end);
   //寻找元素下界

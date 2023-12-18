@@ -10,6 +10,7 @@ struct LogData{
     long double out;
     bool operator<(const LogData& rhs)const;
     bool operator>(const LogData& rhs)const;
+    bool operator==(const LogData &)const{return false;};
     void print()const{std::cout<<"in:"<<in<<"out:"<<out<<'\n';return;}
 };
 class Logsystem{
