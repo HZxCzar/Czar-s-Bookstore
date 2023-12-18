@@ -3,7 +3,7 @@
 #include "FileWriting.hpp"
 #include <set>
 #include <string>
-constexpr int BLOCKSIZE =600;
+constexpr int BLOCKSIZE =555;
 const string ACCOUNTKEY = "ACCOUNTKEY", ACCOUNTVAL = "ACCOUNTVAL",
              ISBNKEY = "ISBNKEY", ISBNVAL = "ISBNVAL", NAMEKEY = "NAMEKEY",
              NAMEVAL = "NAMEVAL", AUTHORKEY = "AUTHORKEY",
