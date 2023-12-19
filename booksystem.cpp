@@ -603,7 +603,8 @@ inline void BookSystem::show(const string &input) {
   }
 }
 
-inline void BookSystem::Buy(const string &input) {
+inline void BookSystem::Buy(const string &input,bool& flag) {
+  flag=false;
   TokenScanner tokenscanner;
   TokenScanner tmpck;
   tokenscanner.SetInput(input);
@@ -680,6 +681,7 @@ inline void BookSystem::Buy(const string &input) {
   // KEYWORDdata.Update(insK, p, pos);
   //修改日志
   Logsystem LOGSYSTEM;
+  flag=true;
   LOGSYSTEM.IN(pay);
 }
 
@@ -705,7 +707,8 @@ inline void BookSystem::Select(const string &input) {
   }
 }
 
-inline void BookSystem::Modify(string &_ISBN, const string &input, string &s) {
+inline void BookSystem::Modify(string &_ISBN, const string &input, string &s,bool& flag) {
+  flag=false;
   s.clear();
   if (_ISBN.empty()) {
     std::cout << "Invalid\n";
@@ -959,9 +962,11 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, string &s) {
       // aftK.PRINT();
     }
   }
+  flag=true;
 }
 
-inline void BookSystem::Import(const string &_ISBN, const string &input) {
+inline void BookSystem::Import(const string &_ISBN, const string &input,bool& flag) {
+  flag=false;
   if (_ISBN.empty()) {
     std::cout << "Invalid\n";
     return;
@@ -1047,4 +1052,5 @@ inline void BookSystem::Import(const string &_ISBN, const string &input) {
   // std::cout<<"pay"<<pay<<'\n';
   Logsystem LOGSYSTEM;
   LOGSYSTEM.OUT(pay);
+  flag=true;
 }

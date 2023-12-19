@@ -69,10 +69,10 @@ public:
              const string &keyname4 = KEYWORDKEY,
              const string &valuename4 = KEYWORDVAL);
   void show(const string &);
-  void Buy(const string &);
+  void Buy(const string &,bool&);
   void Select(const string &);
-  void Modify(string &_ISBN, const string &input, string &s);
-  void Import(const string &_ISBN, const string &input);
+  void Modify(string &_ISBN, const string &input, string &s,bool&);
+  void Import(const string &_ISBN, const string &input,bool&);
   // void CLOSE(){ISBNdata.CL();NAMEdata.CL();AUTHORdata.CL();KEYWORDdata.CL();}
 private:
   database<Book_ISBN> ISBNdata;

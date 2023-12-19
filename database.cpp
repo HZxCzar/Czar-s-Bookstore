@@ -405,27 +405,15 @@ inline void database<data>::PRINT(const long long &begpos,
     return;
   }
   if (begpos == -1 && endpos == -1) {
-    // std::cout<<"right\n";
     A<data> K;
     B<data> V;
     long long p = sizeof(long long);
     while (p != -1) {
       Afile.readA(K, p);
-      // std::cout<<"flag2";
-      // std::cout<<K.pos<<'\n';
       Bfile.readA(V, K.pos);
-      // std::cout<<V.size<<" pos"<<K.pos<<'\n';
-      // std::cout<<"flag3";
-      // Book_ISBN ch=reinterpret_cast<Book_ISBN>(Get(8,0));
-      //  if (typeid(V) == typeid(B<Book_ISBN>)) {
-      //    std::cout<<"TRUE\n";
-      //  }
       for (int i = 0; i < V.size; i++) {
-        // std::cout<<i<<'\n';
         V.elem[i].print();
-        // ch.print();
       }
-      // std::cout<<"flag4";exit(0);
       p = K.next;
     }
   } else if (beg == -1 && end == -1) {

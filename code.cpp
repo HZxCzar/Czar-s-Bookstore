@@ -10,10 +10,10 @@
 #include "database.cpp"
 #include "database.hpp"
 #include <bits/types/FILE.h>
+#include <cassert>
 #include <cstdio>
 #include <iostream>
 #include <string>
-#include <cassert>
 
 int main() {
   // std::remove(ACCOUNTKEY.c_str());
@@ -28,11 +28,16 @@ int main() {
   // std::remove(KEYWORDVAL.c_str());
   // std::remove(LOGKEY.c_str());
   // std::remove(LOGVAL.c_str());
+  // std::remove(WORKERKEY.c_str());
+  // std::remove(WORKERVAL.c_str());
   string s;
   accountsystem ACCOUNTSYSTEM;
   BookSystem BOOKSYSTEM;
   Logsystem LOGSYSTEM;
   TokenScanner tokenscanner;
+  string stmt, ID, isbn;
+  long double charge;
+  bool flag;
   string input;
   string token, check;
   string ord, ISBN;
@@ -41,15 +46,13 @@ int main() {
     // std::cout<<"ENTER\n";
     input.clear();
     char t;
-    while((t=getchar())!='\n'&& t!='\r'&& t!=EOF)
-    {
-      input+=t;
+    while ((t = getchar()) != '\n' && t != '\r' && t != EOF) {
+      input += t;
     }
-    //getline(std::cin, input);
+    // getline(std::cin, input);
     tokenscanner.SetInput(input);
     if (!tokenscanner.hasMoreToken()) {
-      if(t==EOF)
-      {
+      if (t == EOF) {
         return 0;
       }
       continue;
@@ -107,7 +110,12 @@ int main() {
           std::cout << "Invalid\n";
           continue;
         }
-        ACCOUNTSYSTEM.Passwd(ord);
+        ACCOUNTSYSTEM.Passwd(ord, flag);
+        if (flag) {
+          ID = ACCOUNTSYSTEM.GETID();
+          stmt = " passwd " + shr(ord);
+          LOGSYSTEM.WORKER(ID, stmt);
+        }
       } else {
         std::cout << "Invalid\n";
       }
@@ -122,7 +130,12 @@ int main() {
           std::cout << "Invalid\n";
           continue;
         }
-        ACCOUNTSYSTEM.useradd(ord);
+        ACCOUNTSYSTEM.useradd(ord, flag);
+        if (flag) {
+          ID = ACCOUNTSYSTEM.GETID();
+          stmt = " useradd " + shr(ord);
+          LOGSYSTEM.WORKER(ID, stmt);
+        }
       } else {
         std::cout << "Invalid\n";
       }
@@ -134,7 +147,12 @@ int main() {
           std::cout << "Invalid\n";
           continue;
         }
-        ACCOUNTSYSTEM.Delete(ord);
+        ACCOUNTSYSTEM.Delete(ord, flag);
+        if (flag) {
+          ID = ACCOUNTSYSTEM.GETID();
+          stmt = " delete " + shr(ord);
+          LOGSYSTEM.WORKER(ID, stmt);
+        }
       } else {
         std::cout << "Invalid\n";
       }
@@ -157,20 +175,20 @@ int main() {
         if (ACCOUNTSYSTEM.GetPriv() >= 1) {
           if (tokenscanner.hasMoreToken()) {
             token = tokenscanner.BehindToken();
-            //std::cout<<"Behind:"<<token<<'\n';
+            // std::cout<<"Behind:"<<token<<'\n';
             if (token[0] != '=') {
               std::cout << "Invalid\n";
               continue;
             }
             tokenscanner.AD();
-            token=tokenscanner.NextFollow();
-            //std::cout<<"Follow:"<<token<<'\n';
+            token = tokenscanner.NextFollow();
+            // std::cout<<"Follow:"<<token<<'\n';
             if (tokenscanner.hasMoreToken()) {
               std::cout << "Invalid\n";
               continue;
             }
           }
-          //std::cout<<"Ord:"<<ord<<'\n';
+          // std::cout<<"Ord:"<<ord<<'\n';
           BOOKSYSTEM.show(ord);
         } else {
           std::cout << "Invalid\n";
@@ -185,7 +203,12 @@ int main() {
           std::cout << "Invalid\n";
           continue;
         }
-        BOOKSYSTEM.Buy(ord);
+        BOOKSYSTEM.Buy(ord, flag);
+        if (flag) {
+          ID = ACCOUNTSYSTEM.GETID();
+          stmt = " buy " + shr(ord);
+          LOGSYSTEM.WORKER(ID, stmt);
+        }
       } else {
         std::cout << "Invalid\n";
       }
@@ -211,13 +234,19 @@ int main() {
         if (ACCOUNTSYSTEM.IFSELECT()) {
           ord = tokenscanner.BehindToken();
           ISBN = ACCOUNTSYSTEM.GETSELECT();
-          //std::cout<<"HERE\n";
-          BOOKSYSTEM.Modify(ISBN, ord, s);
-          //std::cout<<"NEW SELECT"<<ISBN<<'\n';
+          // std::cout<<"HERE\n";
+          BOOKSYSTEM.Modify(ISBN, ord, s, flag);
+          // std::cout<<"NEW SELECT"<<ISBN<<'\n';
           if (!s.empty()) {
-            //std::cout<<"IN\n";
-            //std::cout<<s<<"<<\n";
+            // std::cout<<"IN\n";
+            // std::cout<<s<<"<<\n";
             ACCOUNTSYSTEM.SelectBook(s);
+          }
+          if (flag) {
+            ID = ACCOUNTSYSTEM.GETID();
+            isbn = ACCOUNTSYSTEM.GETSELECT();
+            stmt = " modify " + isbn + " " + shr(ord);
+            LOGSYSTEM.WORKER(ID, stmt);
           }
         } else {
           std::cout << "Invalid\n";
@@ -236,10 +265,34 @@ int main() {
             continue;
           }
           ISBN = ACCOUNTSYSTEM.GETSELECT();
-          BOOKSYSTEM.Import(ISBN, ord);
+          BOOKSYSTEM.Import(ISBN, ord, flag);
+          if (flag) {
+            ID = ACCOUNTSYSTEM.GETID();
+            isbn = ACCOUNTSYSTEM.GETSELECT();
+            stmt = " import " + isbn + " " + shr(ord);
+            LOGSYSTEM.WORKER(ID, stmt);
+          }
         } else {
           std::cout << "Invalid\n";
         }
+      } else {
+        std::cout << "Invalid\n";
+      }
+    } else if (token == "report") {
+      if (ACCOUNTSYSTEM.GetPriv() >= 7) {
+        ord = tokenscanner.BehindToken();
+        LOGSYSTEM.ReportWorker(ord);
+      } else {
+        std::cout << "Invalid\n";
+      }
+    } else if (token == "log") {
+      if (ACCOUNTSYSTEM.GetPriv() >= 7) {
+        if (tokenscanner.hasMoreToken()) {
+          std::cout << "Invalid\n";
+          continue;
+          ;
+        }
+        LOGSYSTEM.Log();
       } else {
         std::cout << "Invalid\n";
       }

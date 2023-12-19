@@ -146,7 +146,8 @@ inline void accountsystem::Register(const string &input) {
   accountdata.ADD(basis);
 }
 
-inline void accountsystem::Passwd(const string &input) {
+inline void accountsystem::Passwd(const string &input,bool& flag) {
+  flag=false;
   TokenScanner tokenScanner;
   TokenScanner tmpck;
   tokenScanner.SetInput(input);
@@ -223,9 +224,11 @@ inline void accountsystem::Passwd(const string &input) {
   }
   Turn30(basis.Password, token);
   accountdata.Update(basis, p, pos);
+  flag=true;
 }
 
-inline void accountsystem::useradd(const string &input) {
+inline void accountsystem::useradd(const string &input,bool& flag) {
+  flag=false;
   TokenScanner tokenScanner;
   TokenScanner tmpck;
   tokenScanner.SetInput(input);
@@ -291,9 +294,11 @@ inline void accountsystem::useradd(const string &input) {
   }
   Turn30(basis.Username, token);
   accountdata.ADD(basis);
+  flag=true;
 }
 
-inline void accountsystem::Delete(const string &input) {
+inline void accountsystem::Delete(const string &input,bool& flag) {
+  flag=false;
   TokenScanner tokenScanner;
   TokenScanner tmpck;
   tokenScanner.SetInput(input);
@@ -324,6 +329,7 @@ inline void accountsystem::Delete(const string &input) {
     }
   }
   accountdata.DELETE(basis);
+  flag=true;
 }
 
 inline void accountsystem::SelectBook(const string &input) {
@@ -347,4 +353,18 @@ inline bool accountsystem::IFSELECT() const {
 
 inline string accountsystem::GETSELECT() const {
   return LoginStack.back().Select;
+}
+
+inline string accountsystem::GETID()const
+{
+  string ID="";
+  for(int i=0;i<30;i++)
+  {
+    if(LoginStack.back().ID[i]=='\0')
+    {
+      break;
+    }
+    ID=ID+LoginStack.back().ID[i];
+  }
+  return ID;
 }

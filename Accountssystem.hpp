@@ -26,10 +26,11 @@ class accountsystem{
     void Su(const string& input);
     void Logout();
     void Register(const string& input);
-    void Passwd(const string& input);
-    void useradd(const string& input);
-    void Delete(const string& input);
+    void Passwd(const string& input,bool& flag);
+    void useradd(const string& input,bool& flag);
+    void Delete(const string& input,bool& flag);
     void SelectBook(const string& input);
+    string GETID()const;
     long long GetPriv()const;
     bool IFSELECT()const;
     string GETSELECT()const;
