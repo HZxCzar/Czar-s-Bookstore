@@ -9,9 +9,12 @@
 
 inline Logsystem::Logsystem(const string &keyname, const string &valuename,
                             const string &keynameworker,
-                            const string &valuenameworker) {
+                            const string &valuenameworker,
+                            const string &keynamefinance,
+                            const string &valuenamefinance) {
   logdatabase.Set(keyname, valuename);
   workerdatabase.Set(keynameworker, valuenameworker);
+  financedatabase.Set(keynamefinance, valuenamefinance);
 }
 
 inline bool LogData::operator<(const LogData &rhs) const {
@@ -37,8 +40,16 @@ inline bool WorkerData::operator<(const WorkerData &rhs) const {
       return false;
     }
   }
-  if (time < rhs.time) {
-    return true;
+  if (rhs.time[0] == '\0') {
+    return false;
+  }
+  for (int i = 0; i < 80; i++) {
+    if (time[i] < rhs.time[i]) {
+      return true;
+    }
+    if (time[i] > rhs.time[i]) {
+      return false;
+    }
   }
   return false;
 }
@@ -52,8 +63,16 @@ inline bool WorkerData::operator>(const WorkerData &rhs) const {
       return false;
     }
   }
-  if (time > rhs.time) {
-    return true;
+  if (rhs.time[0] == '\0') {
+    return false;
+  }
+  for (int i = 0; i < 80; i++) {
+    if (time[i] > rhs.time[i]) {
+      return true;
+    }
+    if (time[i] < rhs.time[i]) {
+      return false;
+    }
   }
   return false;
 }
@@ -77,6 +96,71 @@ inline void WorkerData::print() const {
   std::cout << '\t';
   std::cout << " | statement : " << stmt << '\t' << " | excute time : " << time
             << '\n';
+}
+
+inline bool BookFinance::operator<(const BookFinance &rhs) const {
+  for (int i = 0; i < 20; i++) {
+    if (ISBN[i] < rhs.ISBN[i]) {
+      return true;
+    } else if (ISBN[i] > rhs.ISBN[i]) {
+      return false;
+    }
+  }
+  if (rhs.time[0] == '\0') {
+    return false;
+  }
+  for (int i = 0; i < 80; i++) {
+    if (time[i] < rhs.time[i]) {
+      return true;
+    }
+    if (time[i] > rhs.time[i]) {
+      return false;
+    }
+  }
+  return false;
+}
+
+inline bool BookFinance::operator>(const BookFinance &rhs) const {
+  for (int i = 0; i < 20; i++) {
+    if (ISBN[i] > rhs.ISBN[i]) {
+      return true;
+    } else if (ISBN[i] < rhs.ISBN[i]) {
+      return false;
+    }
+  }
+  if (rhs.time[0] == '\0') {
+    return false;
+  }
+  for (int i = 0; i < 80; i++) {
+    if (time[i] > rhs.time[i]) {
+      return true;
+    }
+    if (time[i] < rhs.time[i]) {
+      return false;
+    }
+  }
+  return false;
+}
+
+inline bool BookFinance::operator==(const BookFinance &rhs) const {
+  for (int i = 0; i < 20; i++) {
+    if (ISBN[i] != rhs.ISBN[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+inline void BookFinance::print() const {
+  for (int i = 0; i < 20; i++) {
+    if (ISBN[i] == '\0') {
+      break;
+    }
+    std::cout << ISBN[i];
+  }
+  std::cout << '\t' << "+ " << std::fixed << std::setprecision(2) << in << '\t'
+            << "- " << std::fixed << std::setprecision(2) << out << '\t'
+            << "| excutetime : " << time << '\n';
 }
 
 inline void Logsystem::IN(const long double &input) {
@@ -128,7 +212,6 @@ inline void Logsystem::ShowFinance(const string &input) {
       return;
     }
     size_t n = tokenScanner.StringToSizeT(token);
-    // std::cout<<"num:"<<num<<" n:"<<n<<'\n';
     if (n > 2147483647) {
       std::cout << "Invalid\n";
       return;
@@ -164,7 +247,6 @@ inline void Logsystem::ShowFinance(const string &input) {
   for (long long i = 0; i <= pos; i++) {
     get += V.elem[i].in;
     pay += V.elem[i].out;
-    // std::cout << "in:" << V.elem[i].in << "out:" << V.elem[i].out << '\n';
   }
   std::cout << "+ " << std::fixed << std::setprecision(2) << get << " - "
             << std::fixed << std::setprecision(2) << pay << '\n';
@@ -190,7 +272,7 @@ inline void Logsystem::ReportWorker(const string &input) {
     return;
   }
   string token = tokenscanner.NextToken();
-  if (token != "worker") {
+  if (token != "employee") {
     std::cout << "Invalid\n";
     return;
   }
@@ -218,6 +300,7 @@ inline void Logsystem::ReportWorker(const string &input) {
       while (ind != end) {
         long long start = workerdatabase.GetBound(ins, ind);
         long long tail = workerdatabase.GetUp(ins, ind);
+        std::cout << start << " " << tail << '\n';
         if (workerdatabase.if_find) {
           out = true;
           if (start > tail) {
@@ -236,3 +319,53 @@ inline void Logsystem::ReportWorker(const string &input) {
 }
 
 inline void Logsystem::Log() { workerdatabase.PRINT(); }
+
+inline void Logsystem::UPD(const string &ISBN) {
+  LogData check = logdatabase.Get(sizeof(long long), 0);
+  BookFinance add;
+  Turn20(add.ISBN, ISBN);
+  add.in = check.in;
+  add.out = check.out;
+  time_t nowtime = time(0);
+  std::tm *timeinfo = std::localtime(&nowtime);
+  std::strftime(add.time, sizeof(add.time), "%Y-%m-%d %H:%M:%S", timeinfo);
+  financedatabase.ADD(add);
+}
+
+inline void Logsystem::ReportFinance() {
+  if (financedatabase.empt) {
+    std::cout << "\n";
+    return;
+  }
+  long long p = sizeof(long long);
+  long double in = 0.00, out = 0.00;
+  BookFinance basis = financedatabase.Get(p, 0);
+  A<BookFinance> K;
+  B<BookFinance> V;
+  while (p != -1) {
+    financedatabase.Afile.readA(K, p);
+    financedatabase.Bfile.readA(V, K.pos);
+    for (int pos = 0; pos < V.size; pos++) {
+      if (V.elem[pos] == basis) {
+        in = in + V.elem[pos].in;
+        out = out + V.elem[pos].out;
+        V.elem[pos].print();
+      } else {
+        std::cout << "Summary: "
+                  << "+ " << std::fixed << std::setprecision(2) << in << '\t'
+                  << " - " << std::fixed << std::setprecision(2) << out << '\t'
+                  << '\n';
+        std::cout
+            << "---------------------------------------------------------------"
+               "-------------------------------------------------\n";
+        basis = V.elem[pos];
+        in = basis.in;
+        out = basis.out;
+      }
+    }
+    p = K.next;
+  }
+  std::cout << "Summary: "
+            << "+ " << std::fixed << std::setprecision(2) << in << '\t' << " - "
+            << std::fixed << std::setprecision(2) << out << '\t' << '\n';
+}

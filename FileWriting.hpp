@@ -18,7 +18,6 @@ public:
   FileWriting() = default;
   FileWriting(const string &file_name) : file_name(file_name) {}
   void Setfile(const string &name) { file_name = name; }
-  //void Cl(){file.close();}
   void initialise() {
     file.open(file_name, std::ios::out);
     long long beg = 0;
@@ -39,16 +38,13 @@ public:
       return true;
     }
     if (0 < file.tellp()) {
-      long long tmp=0;
-      //std::cout<<file.tellp()<<'\n';
+      long long tmp = 0;
       get_info(tmp);
-      if(!tmp)
-      {
+      if (!tmp) {
         file.close();
         return true;
       }
       file.close();
-      //std::cout<<"tmp"<<tmp<<'\n';
       return false;
     } else {
       file.close();
@@ -60,7 +56,6 @@ public:
     file.open(file_name, std::ios::in | std::ios::out);
     file.seekg(0);
     file.read(reinterpret_cast<char *>(&tmp), sizeof(long long));
-    //std::cout<<tmp<<"GET\n";
     file.close();
   }
   void write_info(long long tmp) {
@@ -80,7 +75,7 @@ public:
     file.write(reinterpret_cast<char *>(&t), sizeofA);
     long long num;
     get_info(num);
-    write_info(num+1);
+    write_info(num + 1);
     file.close();
     return pos;
   }
@@ -99,12 +94,11 @@ public:
     file.close();
     file.open(file_name, std::ios::in | std::ios::out);
     file.seekg(index);
-    //std::cout<<file.tellg()<<"G\n";
+    // std::cout<<file.tellg()<<"G\n";
     file.read(reinterpret_cast<char *>(&t), sizeofA);
     file.close();
   }
   //删除位置索引index对应的对象(不涉及空间回收时，可忽略此函数)，保证调用的index都是由write函数产生
-  void Delete(long long index) { /* your code here */
-  }
+  void Delete(long long index) {}
 };
 #endif

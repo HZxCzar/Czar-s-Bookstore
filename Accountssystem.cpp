@@ -146,8 +146,7 @@ inline void accountsystem::Register(const string &input) {
   accountdata.ADD(basis);
 }
 
-inline void accountsystem::Passwd(const string &input,bool& flag) {
-  flag=false;
+inline void accountsystem::Passwd(const string &input) {
   TokenScanner tokenScanner;
   TokenScanner tmpck;
   tokenScanner.SetInput(input);
@@ -224,11 +223,10 @@ inline void accountsystem::Passwd(const string &input,bool& flag) {
   }
   Turn30(basis.Password, token);
   accountdata.Update(basis, p, pos);
-  flag=true;
 }
 
-inline void accountsystem::useradd(const string &input,bool& flag) {
-  flag=false;
+inline void accountsystem::useradd(const string &input, bool &flag) {
+  flag = false;
   TokenScanner tokenScanner;
   TokenScanner tmpck;
   tokenScanner.SetInput(input);
@@ -286,7 +284,6 @@ inline void accountsystem::useradd(const string &input,bool& flag) {
     return;
   }
   token = tokenScanner.NextToken();
-  //std::cout<<"Token:"<<token<<'\n';
   tmpck.SetInput(token);
   if (!tmpck.ISUSERNAME()) {
     std::cout << "Invalid\n";
@@ -294,11 +291,11 @@ inline void accountsystem::useradd(const string &input,bool& flag) {
   }
   Turn30(basis.Username, token);
   accountdata.ADD(basis);
-  flag=true;
+  flag = true;
 }
 
-inline void accountsystem::Delete(const string &input,bool& flag) {
-  flag=false;
+inline void accountsystem::Delete(const string &input, bool &flag) {
+  flag = false;
   TokenScanner tokenScanner;
   TokenScanner tmpck;
   tokenScanner.SetInput(input);
@@ -329,7 +326,7 @@ inline void accountsystem::Delete(const string &input,bool& flag) {
     }
   }
   accountdata.DELETE(basis);
-  flag=true;
+  flag = true;
 }
 
 inline void accountsystem::SelectBook(const string &input) {
@@ -355,16 +352,13 @@ inline string accountsystem::GETSELECT() const {
   return LoginStack.back().Select;
 }
 
-inline string accountsystem::GETID()const
-{
-  string ID="";
-  for(int i=0;i<30;i++)
-  {
-    if(LoginStack.back().ID[i]=='\0')
-    {
+inline string accountsystem::GETID() const {
+  string ID = "";
+  for (int i = 0; i < 30; i++) {
+    if (LoginStack.back().ID[i] == '\0') {
       break;
     }
-    ID=ID+LoginStack.back().ID[i];
+    ID = ID + LoginStack.back().ID[i];
   }
   return ID;
 }

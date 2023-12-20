@@ -16,7 +16,7 @@ public:
   std::string NextISBN();
   std::string NextTokenNIC();
   string NextFollow();
-  void AD(){pos++;}
+  void AD() { pos++; }
   bool ISUSERID();
   bool ISUSERNAME();
   bool ISPRIVILEGE();
@@ -59,34 +59,26 @@ inline void Turn30(char (&t)[30], const string &targ) {
   }
 }
 
-inline string shr(const string& str)
-{
+inline string shr(const string &str) {
   string ans;
-  int l=0,r=str.size()-1;
-  while(l<=r && str[l]==' ')
-  {
+  int l = 0, r = str.size() - 1;
+  while (l <= r && str[l] == ' ') {
     l++;
   }
-  while(r>=l && str[r]==' ')
-  {
+  while (r >= l && str[r] == ' ') {
     r--;
   }
-  bool check=false;
-  for(int i=l;i<=r;i++)
-  {
-    if(str[i]==' ')
-    {
-      if(check)
-      {
+  bool check = false;
+  for (int i = l; i <= r; i++) {
+    if (str[i] == ' ') {
+      if (check) {
         continue;
       }
-      check=true;
+      check = true;
+    } else {
+      check = false;
     }
-    else
-    {
-      check=false;
-    }
-    ans=ans+str[i];
+    ans = ans + str[i];
   }
   return ans;
 }

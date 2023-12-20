@@ -3,19 +3,21 @@
 #include "FileWriting.hpp"
 #include <set>
 #include <string>
-constexpr int BLOCKSIZE =555;
+constexpr int BLOCKSIZE = 555;
 const string ACCOUNTKEY = "ACCOUNTKEY", ACCOUNTVAL = "ACCOUNTVAL",
              ISBNKEY = "ISBNKEY", ISBNVAL = "ISBNVAL", NAMEKEY = "NAMEKEY",
              NAMEVAL = "NAMEVAL", AUTHORKEY = "AUTHORKEY",
              AUTHORVAL = "AUTHORVAL", KEYWORDKEY = "KEYWORDKEY",
-             KEYWORDVAL = "KEYWORDVAL", LOGKEY = "LOGKEY", LOGVAL = "LOGVAL",WORKERKEY="WORKERKEY",WORKERVAL="WORKERVAL";
+             KEYWORDVAL = "KEYWORDVAL", LOGKEY = "LOGKEY", LOGVAL = "LOGVAL",
+             WORKERKEY = "WORKERKEY", WORKERVAL = "WORKERVAL",
+             FINANCEKEY = "FINANCEKEY", FINANCEVAL = "FINANCEVAL";
 template <class data> struct A {
   long long next;
   long long pos;
   data first;
 };
 template <class data> struct B {
-  data elem[BLOCKSIZE+20];
+  data elem[BLOCKSIZE + 20];
   long long size = 0;
 };
 template <class data> class database {
@@ -60,13 +62,14 @@ public:
   //是否找到元素
   bool if_find = false;
   //针对KEYWORD的putinset
-  void PUT(const long long& p,const long long& start,const long long& end,std::set<string>& u);
+  void PUT(const long long &p, const long long &start, const long long &end,
+           std::set<string> &u);
   //索引数据库
   FileWriting<A<data>> Afile;
   //元素数据库
   FileWriting<B<data>> Bfile;
   //确保关闭
-  //void CL(){Afile.Cl();Bfile.Cl();}
+  // void CL(){Afile.Cl();Bfile.Cl();}
   //是否为空
   bool empt = true;
   //是否执行

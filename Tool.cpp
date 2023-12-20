@@ -152,7 +152,6 @@ inline bool TokenScanner::ISUSERNAME() {
     return false;
   }
   long long p1 = pos;
-  // std::cout<<"HERE\n";
   while (pos < len) {
     if (pos - p1 >= 30) {
       judge = false;
@@ -216,8 +215,7 @@ inline bool TokenScanner::ISISBN() {
   return judge;
 }
 
-inline bool TokenScanner::ISONEKEYWORD()
-{
+inline bool TokenScanner::ISONEKEYWORD() {
   bool judge = true;
   while (pos < len && (line[pos] == ' ')) {
     pos++;
@@ -308,7 +306,6 @@ inline bool TokenScanner::ISPRICE() {
   }
   long long p1 = pos;
   long long p2 = 0;
-  //std::cout<<":"<<line[pos]<<'\n';
   if (pos < len && line[pos] == '.') {
     judge = false;
   }
@@ -367,9 +364,8 @@ inline bool TokenScanner::ISKEYWORD() {
       listlen = false;
     }
     if (line[pos] == ' ') {
-      if(line[pos-1]=='|')
-      {
-        judge=false;
+      if (line[pos - 1] == '|') {
+        judge = false;
       }
       return judge;
     }

@@ -16,20 +16,6 @@
 #include <string>
 
 int main() {
-  // std::remove(ACCOUNTKEY.c_str());
-  // std::remove(ACCOUNTVAL.c_str());
-  // std::remove(ISBNKEY.c_str());
-  // std::remove(ISBNVAL.c_str());
-  // std::remove(NAMEKEY.c_str());
-  // std::remove(NAMEVAL.c_str());
-  // std::remove(AUTHORKEY.c_str());
-  // std::remove(AUTHORVAL.c_str());
-  // std::remove(KEYWORDKEY.c_str());
-  // std::remove(KEYWORDVAL.c_str());
-  // std::remove(LOGKEY.c_str());
-  // std::remove(LOGVAL.c_str());
-  // std::remove(WORKERKEY.c_str());
-  // std::remove(WORKERVAL.c_str());
   string s;
   accountsystem ACCOUNTSYSTEM;
   BookSystem BOOKSYSTEM;
@@ -43,13 +29,11 @@ int main() {
   string ord, ISBN;
   TokenScanner tmpck;
   while (true) {
-    // std::cout<<"ENTER\n";
     input.clear();
     char t;
     while ((t = getchar()) != '\n' && t != '\r' && t != EOF) {
       input += t;
     }
-    // getline(std::cin, input);
     tokenscanner.SetInput(input);
     if (!tokenscanner.hasMoreToken()) {
       if (t == EOF) {
@@ -110,12 +94,7 @@ int main() {
           std::cout << "Invalid\n";
           continue;
         }
-        ACCOUNTSYSTEM.Passwd(ord, flag);
-        if (flag) {
-          ID = ACCOUNTSYSTEM.GETID();
-          stmt = " passwd " + shr(ord);
-          LOGSYSTEM.WORKER(ID, stmt);
-        }
+        ACCOUNTSYSTEM.Passwd(ord);
       } else {
         std::cout << "Invalid\n";
       }
@@ -175,20 +154,17 @@ int main() {
         if (ACCOUNTSYSTEM.GetPriv() >= 1) {
           if (tokenscanner.hasMoreToken()) {
             token = tokenscanner.BehindToken();
-            // std::cout<<"Behind:"<<token<<'\n';
             if (token[0] != '=') {
               std::cout << "Invalid\n";
               continue;
             }
             tokenscanner.AD();
             token = tokenscanner.NextFollow();
-            // std::cout<<"Follow:"<<token<<'\n';
             if (tokenscanner.hasMoreToken()) {
               std::cout << "Invalid\n";
               continue;
             }
           }
-          // std::cout<<"Ord:"<<ord<<'\n';
           BOOKSYSTEM.show(ord);
         } else {
           std::cout << "Invalid\n";
@@ -199,7 +175,7 @@ int main() {
         ord = tokenscanner.BehindToken();
         tokenscanner.NextToken();
         tokenscanner.NextTokenNIC();
-        if (tokenscanner.hasMoreToken()) { // hasMore如何界定“”
+        if (tokenscanner.hasMoreToken()) {
           std::cout << "Invalid\n";
           continue;
         }
@@ -208,6 +184,7 @@ int main() {
           ID = ACCOUNTSYSTEM.GETID();
           stmt = " buy " + shr(ord);
           LOGSYSTEM.WORKER(ID, stmt);
+          LOGSYSTEM.UPD(isbn);
         }
       } else {
         std::cout << "Invalid\n";
@@ -234,12 +211,8 @@ int main() {
         if (ACCOUNTSYSTEM.IFSELECT()) {
           ord = tokenscanner.BehindToken();
           ISBN = ACCOUNTSYSTEM.GETSELECT();
-          // std::cout<<"HERE\n";
           BOOKSYSTEM.Modify(ISBN, ord, s, flag);
-          // std::cout<<"NEW SELECT"<<ISBN<<'\n';
           if (!s.empty()) {
-            // std::cout<<"IN\n";
-            // std::cout<<s<<"<<\n";
             ACCOUNTSYSTEM.SelectBook(s);
           }
           if (flag) {
@@ -271,6 +244,7 @@ int main() {
             isbn = ACCOUNTSYSTEM.GETSELECT();
             stmt = " import " + isbn + " " + shr(ord);
             LOGSYSTEM.WORKER(ID, stmt);
+            LOGSYSTEM.UPD(isbn);
           }
         } else {
           std::cout << "Invalid\n";
@@ -281,7 +255,19 @@ int main() {
     } else if (token == "report") {
       if (ACCOUNTSYSTEM.GetPriv() >= 7) {
         ord = tokenscanner.BehindToken();
-        LOGSYSTEM.ReportWorker(ord);
+        stmt = tokenscanner.NextToken();
+        if (stmt == "employee") {
+          LOGSYSTEM.ReportWorker(ord);
+        } else if (stmt == "finance") {
+          if (tokenscanner.hasMoreToken()) {
+            std::cout << "Invalid\n";
+            continue;
+          }
+          LOGSYSTEM.ReportFinance();
+        } else {
+          std::cout << "Invalid\n";
+          continue;
+        }
       } else {
         std::cout << "Invalid\n";
       }
@@ -297,6 +283,10 @@ int main() {
         std::cout << "Invalid\n";
       }
     } else if (token == "quit" || token == "exit") {
+      if (tokenscanner.hasMoreToken()) {
+        std::cout << "Invalid\n";
+        continue;
+      }
       return 0;
     } else {
       std::cout << "Invalid\n";

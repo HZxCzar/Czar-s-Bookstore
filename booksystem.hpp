@@ -8,7 +8,6 @@
 #include <type_traits>
 //基础数据结构
 struct Book {
-  // Book() = default;
   char ISBN[20] = {};
   char BookName[60] = {};
   char Author[60] = {};
@@ -16,7 +15,6 @@ struct Book {
   size_t Quantity = 0;
   double Price = 0.00;
   double TotalCost = 0.00;
-  // void print()const;
 };
 //派生类数据结构
 struct Book_ISBN : Book {
@@ -24,7 +22,7 @@ struct Book_ISBN : Book {
   Book_ISBN(Book &init);
   bool operator<(const Book &) const;
   bool operator>(const Book &) const;
-  bool operator==(const Book &)const{return false;};
+  bool operator==(const Book &) const { return false; };
   void print() const;
 };
 struct Book_NAME : Book {
@@ -34,7 +32,6 @@ struct Book_NAME : Book {
   bool operator>(const Book &) const;
   bool operator==(const Book &) const;
   void print() const;
-  // void print()const;
 };
 struct Book_AUTHOR : Book {
   Book_AUTHOR() = default;
@@ -43,7 +40,6 @@ struct Book_AUTHOR : Book {
   bool operator>(const Book &) const;
   bool operator==(const Book &) const;
   void print() const;
-  // void print()const;
 };
 struct Book_KEYWORD : Book {
   Book_KEYWORD() = default;
@@ -53,7 +49,6 @@ struct Book_KEYWORD : Book {
   bool operator==(const Book &) const;
   void givemessage(string &elem);
   void print() const;
-  // void print()const;
 };
 class BookSystem {
   friend class Logsystem;
@@ -69,11 +64,11 @@ public:
              const string &keyname4 = KEYWORDKEY,
              const string &valuename4 = KEYWORDVAL);
   void show(const string &);
-  void Buy(const string &,bool&);
+  void Buy(const string &, bool &);
   void Select(const string &);
-  void Modify(string &_ISBN, const string &input, string &s,bool&);
-  void Import(const string &_ISBN, const string &input,bool&);
-  // void CLOSE(){ISBNdata.CL();NAMEdata.CL();AUTHORdata.CL();KEYWORDdata.CL();}
+  void Modify(string &_ISBN, const string &input, string &s, bool &);
+  void Import(const string &_ISBN, const string &input, bool &);
+
 private:
   database<Book_ISBN> ISBNdata;
   database<Book_NAME> NAMEdata;

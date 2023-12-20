@@ -54,7 +54,6 @@ inline void Book_ISBN::print() const {
 }
 
 inline void Book_NAME::print() const {
-  // exit(0);
   for (long long i = 0; i < 20; i++) {
     if (ISBN[i] == '\0') {
       break;
@@ -88,7 +87,6 @@ inline void Book_NAME::print() const {
 }
 
 inline void Book_AUTHOR::print() const {
-  // exit(0);
   for (long long i = 0; i < 20; i++) {
     if (ISBN[i] == '\0') {
       break;
@@ -133,7 +131,6 @@ inline bool Book_ISBN::operator<(const Book &rhs) const {
 }
 
 inline void Book_KEYWORD::print() const {
-  // exit(0);
   for (long long i = 0; i < 20; i++) {
     if (ISBN[i] == '\0') {
       break;
@@ -323,7 +320,7 @@ inline bool Book_KEYWORD::operator>(const Book &rhs) const {
 
 inline bool Book_KEYWORD::operator==(const Book &rhs) const {
   for (long long i = 0; i < 60; i++) {
-    if (Keyword[i] != rhs.Keyword[i]) {//std::cout<<"keyword:"<<Keyword[i]<<"|RHS:"<<rhs.Keyword[i]<<'\n';
+    if (Keyword[i] != rhs.Keyword[i]) {
       return false;
     }
   }
@@ -452,7 +449,7 @@ inline void BookSystem::show(const string &input) {
       long long beg, end;
       NAMEdata.FindRange(ins, beg, end);
       if (!NAMEdata.if_find) {
-        std::cout <<"\n";
+        std::cout << "\n";
         return;
       } else {
         long long ind = beg;
@@ -462,9 +459,8 @@ inline void BookSystem::show(const string &input) {
           long long tail = NAMEdata.GetUp(ins, ind);
           if (NAMEdata.if_find) {
             out = true;
-            if(start>tail)
-            {
-              std::cout<<"Wrong\n";
+            if (start > tail) {
+              std::cout << "Wrong\n";
             }
             NAMEdata.PRINT(ind, ind, start, tail + 1);
           }
@@ -511,13 +507,11 @@ inline void BookSystem::show(const string &input) {
         std::cout << '\n';
         return;
       } else {
-        // std::cout<<"IN\n"<<beg<<" "<<end<<'\n';
         long long ind = beg;
         bool out = false;
         while (ind != end) {
           long long start = AUTHORdata.GetBound(ins, ind);
           long long tail = AUTHORdata.GetUp(ins, ind);
-          // std::cout<<"start:"<<start<<" tail:"<<tail<<'\n';
           if (AUTHORdata.if_find) {
             out = true;
             AUTHORdata.PRINT(ind, ind, start, tail + 1);
@@ -530,7 +524,6 @@ inline void BookSystem::show(const string &input) {
         }
       }
     } else if (token == "-keyword") {
-      //std::cout<<"IN1\n";
       if (!tokenscanner.hasMoreToken()) {
         std::cout << "Invalid\n";
         return;
@@ -560,14 +553,11 @@ inline void BookSystem::show(const string &input) {
       Book_KEYWORD ins;
       Turn60(ins.Keyword, token);
       long long beg, end;
-      //std::cout<<"IN2\n";
       KEYWORDdata.FindRange(ins, beg, end);
-      //std::cout<<"OK?\n";
       if (!KEYWORDdata.if_find) {
         std::cout << '\n';
         return;
       } else {
-        //std::cout<<"IN3\n";
         std::set<string> u;
         long long ind = beg;
         bool out = false;
@@ -603,8 +593,8 @@ inline void BookSystem::show(const string &input) {
   }
 }
 
-inline void BookSystem::Buy(const string &input,bool& flag) {
-  flag=false;
+inline void BookSystem::Buy(const string &input, bool &flag) {
+  flag = false;
   TokenScanner tokenscanner;
   TokenScanner tmpck;
   tokenscanner.SetInput(input);
@@ -676,12 +666,9 @@ inline void BookSystem::Buy(const string &input,bool& flag) {
   AUTHORdata.Find(insA, p, pos);
   AUTHORdata.Update(insA, p, pos);
 
-  // Book_KEYWORD insK(basis);
-  // KEYWORDdata.Find(insK, p, pos);
-  // KEYWORDdata.Update(insK, p, pos);
   //修改日志
   Logsystem LOGSYSTEM;
-  flag=true;
+  flag = true;
   LOGSYSTEM.IN(pay);
 }
 
@@ -690,10 +677,8 @@ inline void BookSystem::Select(const string &input) {
   Turn20(basis.ISBN, input);
   Book_ISBN insI(basis);
   long long p, pos;
-  // insI.PRINT();
   ISBNdata.Find(insI, p, pos);
   if (!ISBNdata.excute) {
-    // std::cout<<"ADD NEW\n";
     ISBNdata.ADD(insI);
 
     Book_NAME insN(basis);
@@ -707,8 +692,9 @@ inline void BookSystem::Select(const string &input) {
   }
 }
 
-inline void BookSystem::Modify(string &_ISBN, const string &input, string &s,bool& flag) {
-  flag=false;
+inline void BookSystem::Modify(string &_ISBN, const string &input, string &s,
+                               bool &flag) {
+  flag = false;
   s.clear();
   if (_ISBN.empty()) {
     std::cout << "Invalid\n";
@@ -716,9 +702,7 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, string &s,boo
   }
   Book basis;
   Book after;
-  // std::cout<<_ISBN<<'\n';
   Turn20(basis.ISBN, _ISBN);
-  // std::cout<<"check:"<<basis.ISBN[0]<<basis.ISBN[1];
   Book_ISBN stream(basis);
   long long p, pos;
   ISBNdata.Find(stream, p, pos);
@@ -742,13 +726,10 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, string &s,boo
   bool IS = false, NA = false, AU = false, KW = false, PR = false;
   while (tokenscanner.hasMoreToken()) {
     token = tokenscanner.NextTokenNIC();
-    // std::cout<<"check:"<<basis.ISBN[0]<<basis.ISBN[1];
-    // std::cout<<"token:"<<token<<'\n';
     if (!tokenscanner.hasMoreToken()) {
       std::cout << "Invalid\n";
       return;
     } else if (token == "-ISBN") {
-      // std::cout<<"IN!\n";
       if (IS) {
         std::cout << "Invalid\n";
         return;
@@ -778,7 +759,6 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, string &s,boo
       }
       if (memcmp(after.ISBN, check, 20)) {
         Turn20(after.ISBN, token);
-        // std::cout<<"check:"<<basis.ISBN[0]<<basis.ISBN[1];
       } else {
         std::cout << "Invalid\n";
         return;
@@ -917,12 +897,9 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, string &s,boo
     }
     s += after.ISBN[i];
   }
-  // std::cout<<"1\n";
-  Book_ISBN insI(basis); // insI.print();
+  Book_ISBN insI(basis);
   Book_ISBN aftI(after);
   ISBNdata.DELETE(insI);
-  // std::cout<<"AFT:";
-  // aftI.print();
   ISBNdata.ADD(aftI);
 
   Book_NAME insN(basis);
@@ -948,9 +925,7 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, string &s,boo
       tok = tokenScanner.NextKeyword();
       Turn60(insK.Keyword, tok);
       KEYWORDdata.DELETE(insK);
-      // insK.PRINT();
     }
-    // std::cout<<"-----------------------------\n";
     for (long long i = 0; i < 60; i++) {
       afterline = afterline + after.Keyword[i];
     }
@@ -959,14 +934,14 @@ inline void BookSystem::Modify(string &_ISBN, const string &input, string &s,boo
       tok = tokenScanner.NextKeyword();
       Turn60(aftK.Keyword, tok);
       KEYWORDdata.ADD(aftK);
-      // aftK.PRINT();
     }
   }
-  flag=true;
+  flag = true;
 }
 
-inline void BookSystem::Import(const string &_ISBN, const string &input,bool& flag) {
-  flag=false;
+inline void BookSystem::Import(const string &_ISBN, const string &input,
+                               bool &flag) {
+  flag = false;
   if (_ISBN.empty()) {
     std::cout << "Invalid\n";
     return;
@@ -1001,7 +976,6 @@ inline void BookSystem::Import(const string &_ISBN, const string &input,bool& fl
     std::cout << "Invalid\n";
     return;
   }
-  // std::cout<<token<<'\n';
   size_t Quant = tokenscanner.StringToSizeT(token);
   if (Quant == 0) {
     std::cout << "Invalid\n";
@@ -1011,7 +985,6 @@ inline void BookSystem::Import(const string &_ISBN, const string &input,bool& fl
     std::cout << "Invalid\n";
     return;
   }
-  // std::cout<<Quant<<'\n';
   basis.Quantity += Quant;
   token = tokenscanner.NextToken();
   tmpck.SetInput(token);
@@ -1043,14 +1016,9 @@ inline void BookSystem::Import(const string &_ISBN, const string &input,bool& fl
   AUTHORdata.Find(insA, p, pos);
   AUTHORdata.Update(insA, p, pos);
 
-  // Book_KEYWORD insK(basis);
-  // KEYWORDdata.Find(insK, p, pos);
-  // KEYWORDdata.Update(insK, p, pos);
-
   //修改日志
   long double pay = totcost * 1.00;
-  // std::cout<<"pay"<<pay<<'\n';
   Logsystem LOGSYSTEM;
   LOGSYSTEM.OUT(pay);
-  flag=true;
+  flag = true;
 }

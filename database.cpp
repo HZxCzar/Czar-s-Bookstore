@@ -7,15 +7,9 @@ void database<data>::Set(const string &Aname, const string &Bname) {
   Afile.Setfile(Aname);
   Bfile.Setfile(Bname);
   empt = false;
-  // std::cout<<"INIT";
   if (Afile.IS_NEW()) {
     empt = true;
-    // std::cout << "INI\n";
     Afile.initialise();
-    // }
-    // if (Bfile.IS_NEW()) {
-    // empt=true;
-    // std::cout<<"INIB\n";
     Bfile.initialise();
   }
 }
@@ -47,7 +41,6 @@ long long database<data>::BinarySearch(const B<data> &block, const data &targ) {
   long long l = 0, r = block.size - 1, mid;
   if (block.size == 0) {
     r = 0;
-    //std::cout << "wrong\n";
   }
   if_find = true;
   while (l < r) {
@@ -89,8 +82,7 @@ bool database<data>::Scan2(const A<data> &check, const data &targ) {
   if (check.first < targ) {
     A<data> nextKey;
     Afile.readA(nextKey, check.next);
-    if(nextKey.first==targ)
-    {
+    if (nextKey.first == targ) {
       return false;
     }
     if (nextKey.first > targ) {
@@ -113,7 +105,6 @@ long long database<data>::GetBound(const data &targ, const long long &p) {
     std::cout << "Wrong\n";
   }
   long long l = 0, r = V.size - 1, mid;
-  // std::cout<<"BOUND:"<<l<<" "<<r<<'\n';
   while (l < r) {
     mid = (l + r) / 2;
     if (V.elem[mid] < targ) {
@@ -123,7 +114,6 @@ long long database<data>::GetBound(const data &targ, const long long &p) {
     }
   }
   if (!(V.elem[l] == targ)) {
-    // std::cout<<"bound\n";V.elem[l].PRINT();
     if_find = false;
   }
   return l;
@@ -163,7 +153,6 @@ void database<data>::FindRange(const data &targ, long long &beg,
     end = 0;
   } else {
     A<data> stream;
-    //PRINT();
     long long p = sizeof(long long), lastp = p;
     Afile.readA(stream, p);
     while (Scan2(stream, targ)) {
@@ -187,7 +176,7 @@ void database<data>::FindRange(const data &targ, long long &beg,
         if_find = true;
         return;
       }
-      Afile.readA(stream, p); 
+      Afile.readA(stream, p);
     }
     end = p;
     if_find = true;
@@ -236,11 +225,7 @@ void database<data>::Find(const data &targ, long long &p, long long &pos) {
       pos++;
     }
     excute = false;
-    // std::cout<<"TEST:\n";
-    // targ.print();
-    // V.elem[pos].print();
     if (!(V.elem[pos] < targ) && !(V.elem[pos] > targ)) {
-      // std::cout<<"INSIDE\n";
       excute = true;
     }
   }
@@ -275,10 +260,7 @@ data database<data>::Get(const long long &p, const long long &pos) {
   A<data> K;
   B<data> V;
   Afile.readA(K, p);
-  // std::cout<<K.pos<<'<';
   Bfile.readA(V, K.pos);
-  // std::cout<<"POS:"<<pos<<'\n';
-  // V.elem[0].print();
   return V.elem[pos];
 }
 
@@ -296,20 +278,15 @@ void database<data>::Update(const data &elem, const long long &p,
 template <class data> void database<data>::ADD(const data &input) {
   excute = false;
   if (empt) {
-    // std::cout<<"ADD\n";
     empt = false;
     excute = true;
     A<data> K;
     B<data> V;
     V.size = 1;
     V.elem[0] = input;
-    // std::cout<<">>>>\n";V.elem[0].PRINT();
     K.first = input;
     K.next = -1;
     K.pos = sizeof(long long);
-    // std::cout<<"ADD0\n";
-    // input.print();
-    // V.elem[0].print();
     Bfile.writeA(V);
     Afile.writeA(K);
   } else {
@@ -317,14 +294,10 @@ template <class data> void database<data>::ADD(const data &input) {
     FindOnly(input, p, lastp);
     A<data> K;
     B<data> V;
-    // std::cout<<"p:"<<p<<'\n';
     Afile.readA(K, p);
     Bfile.readA(V, K.pos);
-    //std::cout<<"x1\n";
     long long pos = BinarySearch(V, input);
-    //std::cout<<"x2\n";
     if (if_find) {
-      //std::cout<<"right!\n";
       return;
     }
     excute = true;
@@ -378,13 +351,11 @@ template <class data> void database<data>::DELETE(const data &input) {
           Afile.updateA(lastK, lastp);
         } else {
           if (K.next == -1) {
-            // std::cout<<"CLEAR\n";
             Afile.write_info(0);
             Bfile.write_info(0);
             empt = true;
             Afile.initialise();
             Bfile.initialise();
-            // std::cout<<"SET EMPTY\n";
           } else {
             A<data> nextK;
             Afile.readA(nextK, K.next);
