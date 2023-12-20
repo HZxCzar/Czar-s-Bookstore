@@ -297,9 +297,6 @@ template <class data> void database<data>::ADD(const data &input) {
     Afile.readA(K, p);
     Bfile.readA(V, K.pos);
     long long pos = BinarySearch(V, input);
-    if (if_find) {
-      return;
-    }
     excute = true;
     if (V.elem[pos] < input) {
       pos++;

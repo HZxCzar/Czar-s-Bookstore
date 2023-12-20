@@ -4,12 +4,14 @@
 inline accountsystem::accountsystem(const string &keyname,
                                     const string &valuename) {
   accountdata.Set(keyname, valuename);
-  Account BOOS;
-  string name = "root", passwd = "sjtu";
-  Turn30(BOOS.UserID, name);
-  Turn30(BOOS.Password, passwd);
-  BOOS.privilege = 7;
-  accountdata.ADD(BOOS);
+  if (accountdata.empt) {
+    Account BOOS;
+    string name = "root", passwd = "sjtu";
+    Turn30(BOOS.UserID, name);
+    Turn30(BOOS.Password, passwd);
+    BOOS.privilege = 7;
+    accountdata.ADD(BOOS);
+  }
   LOG = false;
 }
 

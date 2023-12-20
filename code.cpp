@@ -16,6 +16,22 @@
 #include <string>
 
 int main() {
+  // std::remove(ACCOUNTKEY.c_str());
+  // std::remove(ACCOUNTVAL.c_str());
+  // std::remove(ISBNKEY.c_str());
+  // std::remove(ISBNVAL.c_str());
+  // std::remove(NAMEKEY.c_str());
+  // std::remove(NAMEVAL.c_str());
+  // std::remove(AUTHORKEY.c_str());
+  // std::remove(AUTHORVAL.c_str());
+  // std::remove(KEYWORDKEY.c_str());
+  // std::remove(KEYWORDVAL.c_str());
+  // std::remove(LOGKEY.c_str());
+  // std::remove(LOGVAL.c_str());
+  // std::remove(WORKERKEY.c_str());
+  // std::remove(WORKERVAL.c_str());
+  // std::remove(FINANCEKEY.c_str());
+  // std::remove(FINANCEVAL.c_str());
   string s;
   accountsystem ACCOUNTSYSTEM;
   BookSystem BOOKSYSTEM;
