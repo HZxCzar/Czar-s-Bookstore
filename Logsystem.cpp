@@ -300,7 +300,6 @@ inline void Logsystem::ReportWorker(const string &input) {
       while (ind != end) {
         long long start = workerdatabase.GetBound(ins, ind);
         long long tail = workerdatabase.GetUp(ins, ind);
-        std::cout << start << " " << tail << '\n';
         if (workerdatabase.if_find) {
           out = true;
           if (start > tail) {
