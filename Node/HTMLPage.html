@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        window.onload=function(){
+            //连接Socket
+            var socket=io.connect();
+            socket.on('serverData',function(data){
+                alert(data);
+            });
+            document.getElementById('button').onclick=function(){
+                var text=document.getElementById('text').value;
+                socket.emit('clientData',text);
+            };
+        };
+    </script>
+</head>
+<body>
+    <h1>Czar's tiny BookStore</h1>
+    <h6>Here is just a text for you to try statement</h6>
+    <input type="text" id="text" />
+    <input type="button" id="button" value="send" />
+</body>
+</html>

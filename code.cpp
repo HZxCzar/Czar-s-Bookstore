@@ -44,8 +44,22 @@ int main() {
   string token, check;
   string ord, ISBN;
   TokenScanner tmpck;
+  std::stringstream output;
+  std::streambuf *coutBuffer = std::cout.rdbuf();
+  std::cout.rdbuf(output.rdbuf());
+  std::string outputBeforeLoop = output.str();
+  std::string outputAfterLoop = output.str();
   while (true) {
     input.clear();
+    std::cout.rdbuf(coutBuffer);
+    outputAfterLoop = output.str();
+    if (outputAfterLoop != outputBeforeLoop) {
+      std::cout << output.str();
+      std::cout << std::flush;
+    }
+    output.str("");
+    std::cout.rdbuf(output.rdbuf());
+    outputBeforeLoop=output.str();
     char t;
     while ((t = getchar()) != '\n' && t != '\r' && t != EOF) {
       input += t;
@@ -236,6 +250,7 @@ int main() {
             isbn = ACCOUNTSYSTEM.GETSELECT();
             stmt = " modify " + isbn + " " + shr(ord);
             LOGSYSTEM.WORKER(ID, stmt);
+          } else {
           }
         } else {
           std::cout << "Invalid\n";
@@ -292,7 +307,6 @@ int main() {
         if (tokenscanner.hasMoreToken()) {
           std::cout << "Invalid\n";
           continue;
-          ;
         }
         LOGSYSTEM.Log();
       } else {
