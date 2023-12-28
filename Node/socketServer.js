@@ -27,6 +27,10 @@ io.sockets.on('connection', function (socket) {
     });
     child.stdout.on('data', function (output) {
         console.log('result:', output.toString());
+        // var lines = output.toString().split('\n');
+        // for (var i = 0; i < lines.length; i++) {
+        //     socket.emit('serverData', lines[i] + '<br>');
+        // }
         socket.emit('serverData', output.toString());
     });
 });

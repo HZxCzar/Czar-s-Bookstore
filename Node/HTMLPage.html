@@ -1,25 +1,140 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+    <style>
+        @keyframes gradient-animation {
+            0% {
+                background-color: #f3b5b5;
+            }
+
+            50% {
+                background-color: #d89f9f;
+            }
+
+            100% {
+                background-color: #f3b5b5;
+            }
+        }
+
+        body {
+            background-color: #f1c6c6;
+            animation: gradient-animation 10s infinite;
+        }
+
+        button {
+            background-color: #f5f5f5;
+            border: 2px solid #f5f5f5;
+            border-radius: 4px;
+            /* 让按钮的边角更加圆润 */
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+            /* 添加提升效果 */
+            color: #333;
+            /* 改变文字颜色 */
+            cursor: pointer;
+            /* 鼠标移入时显示手型光标 */
+            font-size: 16px;
+            /* 改变字体大小 */
+            padding: 10px 20px;
+            /* 改变按钮的内边距 */
+            transition: all 0.3s ease;
+            /* 添加渐变效果 */
+        }
+
+        /* 当鼠标指针悬停在button上时，改变颜色和边框样式 */
+        button:hover {
+            background-color: #333;
+            border: 2px solid #333;
+            color: #f5f5f5;
+        }
+    </style>
+    <meta charset="UTF-8">
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        window.onload=function(){
-            //连接Socket
-            var socket=io.connect();
-            socket.on('serverData',function(data){
-                alert(data);
+        window.onload = function () {
+            var socket = io.connect();
+            var outputDiv;
+            socket.on('serverData', function (data) {
+                outputDiv = document.getElementById('output');
+                outputDiv.innerHTML = data;
             });
-            document.getElementById('button').onclick=function(){
-                var text=document.getElementById('text').value;
-                socket.emit('clientData',text);
+            document.getElementById('su').onclick = function () {
+                var text = document.getElementById('textsu').value;
+                socket.emit('clientData', 'su ' + text);
+            };
+            document.getElementById('logout').onclick = function () {
+                socket.emit('clientData', 'logout');
+            };
+            document.getElementById('register').onclick = function () {
+                var text = document.getElementById('textregister').value;
+                socket.emit('clientData', 'register ' + text);
+            };
+            document.getElementById('passwd').onclick = function () {
+                var text = document.getElementById('textpasswd').value;
+                socket.emit('clientData', 'passwd ' + text);
+            };
+            document.getElementById('useradd').onclick = function () {
+                var text = document.getElementById('textuseradd').value;
+                socket.emit('clientData', 'useradd ' + text);
+            };
+            document.getElementById('delete').onclick = function () {
+                var text = document.getElementById('textdelete').value;
+                socket.emit('clientData', 'delete ' + text);
+            };
+            document.getElementById('show').onclick = function () {
+                var text = document.getElementById('textshow').value;
+                socket.emit('clientData', 'show ' + text);
+            };
+            document.getElementById('buy').onclick = function () {
+                var text = document.getElementById('textbuy').value;
+                socket.emit('clientData', 'buy ' + text);
+            };
+            document.getElementById('select').onclick = function () {
+                var text = document.getElementById('textselect').value;
+                socket.emit('clientData', 'select ' + text);
+            };
+            document.getElementById('modify').onclick = function () {
+                var text = document.getElementById('textmodify').value;
+                socket.emit('clientData', 'modify ' + text);
+            };
+            document.getElementById('import').onclick = function () {
+                var text = document.getElementById('textimport').value;
+                socket.emit('clientData', 'import ' + text);
+            };
+            document.getElementById('log').onclick = function () {
+                socket.emit('clientData', 'log');
             };
         };
     </script>
 </head>
+
 <body>
     <h1>Czar's tiny BookStore</h1>
     <h6>Here is just a text for you to try statement</h6>
-    <input type="text" id="text" />
-    <input type="button" id="button" value="send" />
+    <input type="button" id="su" value="登录账户" />
+    <input type="text" id="textsu" />
+    <input type="button" id="logout" value="注销账户" />
+    <input type="button" id="register" value="注册账户" />
+    <input type="text" id="textregister" />
+    <input type="button" id="passwd" value="修改密码" />
+    <input type="text" id="textpasswd" /><br>
+    <input type="button" id="useradd" value="创建账户" />
+    <input type="text" id="textuseradd" />
+    <input type="button" id="delete" value="删除账户" />
+    <input type="text" id="textdelete" /><br>
+    <input type="button" id="show" value="检索图书" />
+    <input type="text" id="textshow" />
+    <input type="button" id="buy" value="购买图书" />
+    <input type="text" id="textbuy" />
+    <input type="button" id="select" value="选择图书" />
+    <input type="text" id="textselect" />
+    <input type="button" id="modify" value="修改图书信息" />
+    <input type="text" id="textmodify" />
+    <input type="button" id="import" value="图书进货" />
+    <input type="text" id="textimport" /><br>
+    <input type="button" id="log" value="日志" /><br><br><br>
+    <h3>The Output Infor</h3>
+    <div id="output"></div>
 </body>
+
 </html>
