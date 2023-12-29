@@ -2,27 +2,37 @@
 <html>
 
 <head>
+    <meta http-equiv="refresh" content="10">
     <style>
-        @keyframes gradient-animation {
+        /* @keyframes gradient-animation {
             0% {
-                background-color: #f3b5b5;
+                background-color: #04fd25;
             }
 
-            50% {
-                background-color: #d89f9f;
+            33% {
+                background-color: #ff3d02;
+            }
+
+            66% {
+                background-color: #e9fe01;
             }
 
             100% {
-                background-color: #f3b5b5;
+                background-color: #04fd25;
             }
         }
 
         body {
             background-color: #f1c6c6;
-            animation: gradient-animation 10s infinite;
+            animation: gradient-animation 5s infinite;
+        } */
+
+        body {
+            background-image: url("image.jpg");
+            background-size: cover;
         }
 
-        button {
+        input[type="button"] {
             background-color: #f5f5f5;
             border: 2px solid #f5f5f5;
             border-radius: 4px;
@@ -41,11 +51,20 @@
             /* 添加渐变效果 */
         }
 
-        /* 当鼠标指针悬停在button上时，改变颜色和边框样式 */
         button:hover {
             background-color: #333;
             border: 2px solid #333;
             color: #f5f5f5;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+            font-size: 16px;
+            color: #333;
+            transition: border-color 0.3s ease;
         }
     </style>
     <meta charset="UTF-8">
@@ -109,6 +128,14 @@
 </head>
 
 <body>
+    <!-- <link href="https://fonts.googleapis.com/css?family=FontName" rel="stylesheet">
+    <style>
+        .artistic-text {
+            font-family: 'FontName', sans-serif;
+            /* 添加其他样式 */
+        }
+    </style> -->
+    <!-- <h1 class="artistic-text">Czar's tiny BookStore</h1> -->
     <h1>Czar's tiny BookStore</h1>
     <h6>Here is just a text for you to try statement</h6>
     <input type="button" id="su" value="登录账户" />
@@ -129,7 +156,7 @@
     <input type="button" id="select" value="选择图书" />
     <input type="text" id="textselect" />
     <input type="button" id="modify" value="修改图书信息" />
-    <input type="text" id="textmodify" />
+    <input type="text" id="textmodify" /><br>
     <input type="button" id="import" value="图书进货" />
     <input type="text" id="textimport" /><br>
     <input type="button" id="log" value="日志" /><br><br><br>
